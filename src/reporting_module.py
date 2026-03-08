@@ -168,8 +168,7 @@ def generate_contribution_note(output_path: str | Path) -> None:
         "3. Added model-evaluation layer (MAE, RMSE, R2) with per-crop comparison and ranking reports.",
         "4. Implemented dynamic inverse-RMSE weighted coordination for final hybrid prediction.",
         "5. Integrated threshold-based decision simulation (fan/spray) connected to hybrid prediction.",
-        "6. Added plant-growth intelligence analytics (growth prediction, stress scoring, feature importance).",
-        "7. Added UI-ready payload export (actual vs predicted + action timeline) for frontend styling.",
+        "6. Added UI-ready payload export (actual vs predicted + action timeline) for frontend styling.",
     ]
     path_obj = Path(output_path)
     path_obj.parent.mkdir(parents=True, exist_ok=True)

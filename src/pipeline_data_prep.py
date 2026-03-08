@@ -64,7 +64,6 @@ from src.ml_forecasting_module import (
     predict_temperature,
     train_temperature_forecaster,
 )
-from src.plant_growth_intelligence_module import run_plant_growth_intelligence
 from src.reporting_module import (
     generate_contribution_note,
     generate_control_simulation_report,
@@ -154,19 +153,17 @@ def _write_hybrid_architecture_docs() -> Dict[str, str]:
 
 ```mermaid
 flowchart LR
-    A[Data Management Module\\nCSV ingestion, cleaning, scaling, sequences]
-    B[Machine Learning Forecasting Module\\nLSTM + parallel ML models]
-    C[Model Evaluation Module\\nMAE, RMSE, R2 comparison table]
-    D[Model Coordination Layer\\nDynamic weighted hybrid prediction]
-    E[Decision and Control Simulation Module\\nThreshold rule engine]
-    F[Visualization and Reporting Module\\nDashboard payload + plots + reports]
-    G[Plant Growth Intelligence Extension\\nGrowth prediction, stress analytics, feature importance]
+    A[Data Management Module\nCSV ingestion, cleaning, scaling, sequences]
+    B[Machine Learning Forecasting Module\nLSTM + parallel ML models]
+    C[Model Evaluation Module\nMAE, RMSE, R2 comparison table]
+    D[Model Coordination Layer\nDynamic weighted hybrid prediction]
+    E[Decision and Control Simulation Module\nThreshold rule engine]
+    F[Visualization and Reporting Module\nDashboard payload + plots + reports]
 
     A --> B --> C --> D --> E --> F
-    A --> G --> F
 ```
 
-This extends the existing architecture without removing any original module.
+This architecture implements a complete microclimate forecasting pipeline.
 """
 
     pipeline_text = """# Updated Methodology Pipeline
@@ -185,7 +182,6 @@ Data Collection (CSV-only)
 -> Final Optimized Temperature Prediction
 -> Decision and Control Simulation (fan/spray thresholds unchanged)
 -> Visualization and Reporting
--> Plant Growth Intelligence Analytics
 """
 
     architecture_path.write_text(architecture_text, encoding="utf-8")
@@ -272,12 +268,6 @@ def run_full_project_workflow(
     )
     docs_artifacts = _write_hybrid_architecture_docs()
 
-    plant_intelligence = run_plant_growth_intelligence(
-        dataset_path=RAW_EXTERNAL_KAGGLE_PATH,
-        report_dir=REPORTS_DIR / "plant_growth_intelligence",
-        figure_dir=FIGURES_DIR / "plant_growth_intelligence",
-    )
-
     crop_groups = split_by_crop(
         dataset=cleaned_df,
         crop_column=crop_column,
@@ -362,6 +352,30 @@ def run_full_project_workflow(
             force_backend="auto",
         )
 
+        # Explicit LSTM candidate: treated as an independent model for hybrid coordination.
+        # If primary already uses LSTM, reuse it instead of training a duplicate network.
+        lstm_candidate = None
+        lstm_candidate_note = "not_attempted"
+        if primary_model.backend == "lstm":
+            lstm_candidate = primary_model
+            lstm_candidate_note = "trained_via_primary"
+        else:
+            try:
+                lstm_candidate = train_temperature_forecaster(
+                    x_train=x_fit,
+                    y_train=y_fit,
+                    x_val=x_val,
+                    y_val=y_val,
+                    model_dir=crop_models_dir,
+                    model_tag=f"{crop_slug}_lstm_explicit",
+                    epochs=epochs,
+                    batch_size=batch_size,
+                    force_backend="lstm",
+                )
+                lstm_candidate_note = "trained"
+            except Exception as exc:
+                lstm_candidate_note = f"Unavailable: {exc}"
+
         # Baseline model from existing pipeline remains intact.
         linear_baseline = LinearSequenceRegressor(l2_penalty=1e-3)
         linear_baseline.fit(x_fit, y_fit)
@@ -388,6 +402,12 @@ def run_full_project_workflow(
             model_predictions_val_scaled["primary_linear"] = predict_temperature(primary_model, x_val)
             preferred_model = "primary_linear"
 
+        # Add explicit LSTM model if available and not already present.
+        if lstm_candidate is not None and lstm_candidate.backend == "lstm" and "lstm" not in model_predictions_test_scaled:
+            model_predictions_test_scaled["lstm"] = predict_temperature(lstm_candidate, x_test)
+            model_predictions_val_scaled["lstm"] = predict_temperature(lstm_candidate, x_val)
+            preferred_model = "lstm"
+
         # Extension: train independent ML models (RF/GB/LinearRegression/optional XGBoost).
         secondary_registry = train_secondary_forecasters(x_train=x_fit, y_train=y_fit)
         secondary_test_predictions = predict_secondary_forecasters(secondary_registry, x_input=x_test)
@@ -397,8 +417,14 @@ def run_full_project_workflow(
                 model_predictions_test_scaled[model_name] = test_pred
                 model_predictions_val_scaled[model_name] = secondary_val_predictions[model_name]
 
+        registry_notes = dict(secondary_registry.notes)
+        registry_notes["primary_backend"] = primary_model.backend
+        registry_notes["lstm_candidate"] = lstm_candidate_note
+        if primary_model.fallback_reason:
+            registry_notes["primary_fallback_reason"] = primary_model.fallback_reason
+
         _write_json(
-            payload={"notes": secondary_registry.notes, "models": list(model_predictions_test_scaled.keys())},
+            payload={"notes": registry_notes, "models": list(model_predictions_test_scaled.keys())},
             output_path=crop_reports_dir / "secondary_model_registry.json",
         )
 
@@ -596,7 +622,6 @@ def run_full_project_workflow(
             "overall_results": str(REPORTS_DIR / "overall_crop_results.csv"),
             "overall_model_comparison": str(overall_model_comparison_path),
             "overall_model_ranking": str(overall_model_ranking_path),
-            "plant_growth_intelligence": plant_intelligence,
             "architecture_doc": docs_artifacts["architecture_doc"],
             "pipeline_doc": docs_artifacts["pipeline_doc"],
         },
@@ -611,7 +636,6 @@ def run_full_project_workflow(
         f"Overall results table: {REPORTS_DIR / 'overall_crop_results.csv'}",
         f"Overall model comparison: {overall_model_comparison_path}",
         f"Overall model ranking: {overall_model_ranking_path}",
-        f"Plant intelligence status: {plant_intelligence.get('status', 'unknown')}",
         f"Architecture doc: {docs_artifacts['architecture_doc']}",
         f"Methodology doc: {docs_artifacts['pipeline_doc']}",
         f"Contribution note: {DOCS_DIR / 'paper_contribution_analysis.md'}",
@@ -625,7 +649,6 @@ def run_full_project_workflow(
         "results_table": str(REPORTS_DIR / "overall_crop_results.csv"),
         "overall_model_comparison": str(overall_model_comparison_path),
         "overall_model_ranking": str(overall_model_ranking_path),
-        "plant_growth_intelligence": plant_intelligence,
         "architecture_doc": docs_artifacts["architecture_doc"],
         "pipeline_doc": docs_artifacts["pipeline_doc"],
         "status_report": str(REPORTS_DIR / "full_pipeline_status.txt"),
