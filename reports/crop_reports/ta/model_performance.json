@@ -1,8 +1,8 @@
 {
-  "mae": 3.2325077095262,
-  "rmse": 3.8364204657831253,
-  "mape_pct": 7.877961355850978,
-  "r2": -0.033213148734418496,
+  "mae": NaN,
+  "rmse": NaN,
+  "mape_pct": NaN,
+  "r2": NaN,
   "sample_count": 994,
-  "backend": "dynamic_inverse_rmse_weighted_ensemble[primary_linear:0.20, random_forest:0.17, gradient_boosting:0.17, linear_baseline:0.17, linear_regression:0.17, naive_persistence:0.12]"
+  "backend": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]"
 }
