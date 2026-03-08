@@ -58,13 +58,110 @@ Your provided zip is integrated at:
    - Control action timeline
    - Per-crop metrics, aggregate model ranking, and plant-growth intelligence reports
 
-## How to Run
-Use your project virtual environment (already containing pandas/numpy/matplotlib/seaborn):
+## How to Train and Run
+
+### Quick Start (Recommended)
 
 ```bash
+# 1. Go to project folder
 cd /Users/vabhiram/Desktop/softwareeng_project
+
+# 2. Activate virtual environment
 source .venv_new/bin/activate
-python -m src.pipeline_data_prep
+
+# 3. Train models and run full pipeline
+PYTHONPATH=/Users/vabhiram/Desktop/softwareeng_project python -m src.pipeline_data_prep
+
+# 4. Run hybrid model evaluation
+PYTHONPATH=/Users/vabhiram/Desktop/softwareeng_project python -m src.run_hybrid_evaluation
+
+# 5. Start dashboard UI
+PYTHONPATH=/Users/vabhiram/Desktop/softwareeng_project python -m src.dashboard_server --port 8080
+
+# 6. Open browser: http://127.0.0.1:8080
+```
+
+### Training Process Details
+
+#### Step 1: Data Preparation
+- **Input**: Greenhouse CSV files with temperature and plant metrics
+- **Processing**: 
+  - Load and merge multiple CSV sources
+  - Clean missing values and remove duplicates
+  - Split data by crop types (SA, SB, SC, TA, TB, TC)
+  - Scale features using Min-Max normalization
+  - Generate LSTM sequences (6 timesteps, 3 features)
+
+#### Step 2: Model Training
+- **Primary Model**: LSTM (Long Short-Term Memory) neural network
+  - Architecture: 50 LSTM units → Dense layer
+  - Training: 50 epochs, batch size 32
+  - Optimizer: Adam, Loss: MSE
+- **Secondary Models**:
+  - Random Forest (100 trees)
+  - Gradient Boosting (100 estimators)
+  - Linear Regression (baseline)
+  - Linear Autoregressive (baseline)
+- **Hybrid Coordination**: Dynamic weighted ensemble based on inverse RMSE
+
+#### Step 3: Evaluation Metrics
+- **MAE** (Mean Absolute Error): Lower is better
+- **RMSE** (Root Mean Square Error): Lower is better  
+- **R²** (R-squared): Higher is better (closer to 1.0)
+
+#### Step 4: Control Simulation
+- **Threshold Logic**:
+  - Low threshold: 18°C → Turn ON fan
+  - High threshold: 28°C → Turn ON spray
+  - Normal range (18-28°C): All OFF
+- **Outputs**: Fan/spray action timeline for each crop
+
+### Data Requirements
+
+#### Required Columns in CSV files:
+- `timestamp` or `time`: Time series data
+- `temperature` or `indoor_temperature_c`: Target variable
+- `humidity` or similar: Environmental feature
+- `light_intensity` or similar: Environmental feature
+- `crop` or `class`: Crop type identifier (optional)
+
+#### Supported Data Sources:
+1. **Kaggle Dataset**: `data/raw/external_kaggle/greenhouse_plant_growth_metrics.csv`
+2. **Microclimate Data**: `data/raw/microclimate_temperature_history.csv`
+3. **Crop Samples**: `data/raw/crop_samples/*.csv`
+4. **Demo Data**: `data/raw/demo_all_cases_control_logic.csv`
+
+### Model Performance (Latest Results)
+
+| Rank | Model | MAE | RMSE | R² |
+|-------|---------|-----|-------|----|
+| 1 | Random Forest | 2.02 | 2.33 | -0.02 |
+| 2 | Linear Baseline | 2.03 | 2.33 | -0.03 |
+| 3 | Primary Linear | 2.03 | 2.33 | -0.03 |
+| 4 | Linear Regression | 2.04 | 2.34 | -0.03 |
+| 5 | Gradient Boosting | 2.03 | 2.34 | -0.03 |
+
+### Troubleshooting
+
+#### Common Issues:
+1. **Port already in use**: Try different ports (8081, 8082, 9999)
+2. **Module not found**: Ensure virtual environment is activated
+3. **Memory issues**: Reduce batch size or sequence length in config
+4. **TensorFlow errors**: Pipeline continues with secondary models
+
+#### Commands to Fix Issues:
+```bash
+# Kill processes on ports (if needed)
+pkill -f dashboard_server
+
+# Use different port
+python -m src.dashboard_server --port 8090
+
+# Reinstall dependencies
+pip install numpy pandas scikit-learn matplotlib seaborn torch
+
+# Check data files
+ls -la data/raw/
 ```
 
 ## Frontend UI (Recommended Presentation Mode)
