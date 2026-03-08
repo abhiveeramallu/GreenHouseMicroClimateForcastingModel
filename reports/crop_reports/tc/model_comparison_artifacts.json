@@ -9,45 +9,45 @@
     },
     {
       "rank": 2,
-      "model": "primary_linear",
-      "mae": 4.875492441342391,
-      "rmse": 5.654531595885388,
-      "r2": -0.023033041863598003
-    },
-    {
-      "rank": 3,
       "model": "linear_regression",
       "mae": 4.877188665286396,
       "rmse": 5.655776589045377,
       "r2": -0.023483586469730255
     },
     {
-      "rank": 4,
+      "rank": 3,
       "model": "random_forest",
       "mae": 4.869809505685234,
       "rmse": 5.662186632939284,
       "r2": -0.025804856542760435
     },
     {
-      "rank": 5,
+      "rank": 4,
       "model": "gradient_boosting",
       "mae": 4.8797181472931825,
       "rmse": 5.670428959704241,
       "r2": -0.02879351561400889
     },
     {
-      "rank": 6,
-      "model": "hybrid_coordinated",
-      "mae": 4.909981265154403,
-      "rmse": 5.692981175258188,
-      "r2": -0.03699314618845384
-    },
-    {
-      "rank": 7,
+      "rank": 5,
       "model": "naive_persistence",
       "mae": 6.14998630546708,
       "rmse": 7.989343633128299,
       "r2": -1.0422955586180667
+    },
+    {
+      "rank": 6,
+      "model": "lstm",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
+    },
+    {
+      "rank": 7,
+      "model": "hybrid_coordinated",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
     }
   ],
   "best_model": "linear_baseline",

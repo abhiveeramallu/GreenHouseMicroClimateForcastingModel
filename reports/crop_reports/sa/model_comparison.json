@@ -13,45 +13,45 @@
     },
     {
       "rank": 2,
-      "model": "hybrid_coordinated",
-      "mae": 1.1877727124772561,
-      "rmse": 1.3664799092677409,
-      "r2": -0.03481495905919152
-    },
-    {
-      "rank": 3,
       "model": "linear_baseline",
       "mae": 1.185899151163082,
       "rmse": 1.3665271494674538,
       "r2": -0.034886508900492164
     },
     {
-      "rank": 4,
-      "model": "primary_linear",
-      "mae": 1.185899151163082,
-      "rmse": 1.3665271494674538,
-      "r2": -0.034886508900492164
-    },
-    {
-      "rank": 5,
+      "rank": 3,
       "model": "gradient_boosting",
       "mae": 1.1829687843860035,
       "rmse": 1.366596664318616,
       "r2": -0.03499180034888738
     },
     {
-      "rank": 6,
+      "rank": 4,
       "model": "linear_regression",
       "mae": 1.1869330185519857,
       "rmse": 1.3672293572049175,
       "r2": -0.03595036193512158
     },
     {
-      "rank": 7,
+      "rank": 5,
       "model": "naive_persistence",
       "mae": 1.4529450913550148,
       "rmse": 1.8905921535794106,
       "r2": -0.9808514090729186
+    },
+    {
+      "rank": 6,
+      "model": "lstm",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
+    },
+    {
+      "rank": 7,
+      "model": "hybrid_coordinated",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
     }
   ]
 }

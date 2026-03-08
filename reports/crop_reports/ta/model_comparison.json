@@ -20,38 +20,38 @@
     },
     {
       "rank": 3,
-      "model": "primary_linear",
-      "mae": 3.2287918835338694,
-      "rmse": 3.8258946338473088,
-      "r2": -0.027551356020077522
-    },
-    {
-      "rank": 4,
       "model": "linear_regression",
       "mae": 3.23117973435093,
       "rmse": 3.82649982116063,
       "r2": -0.027876461799275276
     },
     {
-      "rank": 5,
-      "model": "hybrid_coordinated",
-      "mae": 3.2325077095262,
-      "rmse": 3.8364204657831253,
-      "r2": -0.033213148734418496
-    },
-    {
-      "rank": 6,
+      "rank": 4,
       "model": "gradient_boosting",
       "mae": 3.222346115879849,
       "rmse": 3.8369184208088827,
       "r2": -0.033481381622076034
     },
     {
-      "rank": 7,
+      "rank": 5,
       "model": "naive_persistence",
       "mae": 4.214201829323106,
       "rmse": 5.436151749326362,
       "r2": -1.0745345358512175
+    },
+    {
+      "rank": 6,
+      "model": "lstm",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
+    },
+    {
+      "rank": 7,
+      "model": "hybrid_coordinated",
+      "mae": NaN,
+      "rmse": NaN,
+      "r2": NaN
     }
   ]
 }

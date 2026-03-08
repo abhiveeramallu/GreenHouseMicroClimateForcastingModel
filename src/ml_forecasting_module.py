@@ -81,31 +81,33 @@ class LinearSequenceRegressor:
 
 def build_lstm_model(input_shape: tuple, learning_rate: float = 1e-3):
     """
-    Build and compile an LSTM model for greenhouse temperature forecasting.
+    Build and compile an LSTM model using PyTorch for greenhouse temperature forecasting.
 
     Planned input:
     - input_shape: (sequence_length, feature_count)
 
     Output:
-    - Compiled TensorFlow/Keras model
+    - PyTorch LSTM model class
     """
+    import torch
+    import torch.nn as nn
 
-    from tensorflow.keras import Input, Sequential
-    from tensorflow.keras.layers import Dense, Dropout, LSTM
-    from tensorflow.keras.optimizers import Adam
-
-    model = Sequential(
-        [
-            Input(shape=input_shape),
-            LSTM(64, return_sequences=True),
-            Dropout(0.15),
-            LSTM(32, return_sequences=False),
-            Dense(16, activation="relu"),
-            Dense(1, activation="linear"),
-        ]
-    )
-    model.compile(optimizer=Adam(learning_rate=learning_rate), loss="mse", metrics=["mae"])
-    return model
+    class GreenhouseLSTM(nn.Module):
+        def __init__(self, input_size, hidden_size=32, num_layers=1):
+            super(GreenhouseLSTM, self).__init__()
+            self.hidden_size = hidden_size
+            self.num_layers = num_layers
+            self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True, dropout=0.0)
+            self.fc = nn.Linear(hidden_size, 1)
+            
+        def forward(self, x):
+            h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size, device=x.device)
+            c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size, device=x.device)
+            out, _ = self.lstm(x, (h0, c0))
+            out = self.fc(out[:, -1, :])
+            return out
+    
+    return GreenhouseLSTM(input_shape[1], hidden_size=32)
 
 
 def train_lstm_model(
@@ -118,34 +120,83 @@ def train_lstm_model(
     batch_size: int = 16,
 ):
     """
-    Train the LSTM model using preprocessed sequences.
+    Train the PyTorch LSTM model using preprocessed sequences.
 
     Inputs:
-    - model: compiled keras model
+    - model: PyTorch model
     - x_train, y_train: training sequences and targets
     - x_val, y_val: validation sequences and targets
     - epochs: max training epochs
     - batch_size: mini-batch size
 
     Output:
-    - keras History object
+    - Training history dictionary
     """
-
-    from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-    callbacks = [
-        EarlyStopping(monitor="val_loss", patience=6, restore_best_weights=True),
-        ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, min_lr=1e-5),
-    ]
-    return model.fit(
-        x_train,
-        y_train,
-        validation_data=(x_val, y_val),
-        epochs=epochs,
-        batch_size=batch_size,
-        verbose=0,
-        callbacks=callbacks,
-    )
+    import torch
+    import torch.nn as nn
+    import torch.optim as optim
+    from torch.utils.data import TensorDataset, DataLoader
+    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
+    
+    # Convert to tensors
+    x_train_t = torch.FloatTensor(x_train).to(device)
+    y_train_t = torch.FloatTensor(y_train).reshape(-1, 1).to(device)
+    x_val_t = torch.FloatTensor(x_val).to(device)
+    y_val_t = torch.FloatTensor(y_val).reshape(-1, 1).to(device)
+    
+    # Create data loaders
+    train_dataset = TensorDataset(x_train_t, y_train_t)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=0.5)
+    
+    history = {'loss': [], 'val_loss': []}
+    best_val_loss = float('inf')
+    patience_counter = 0
+    best_state = None
+    
+    for epoch in range(epochs):
+        model.train()
+        train_loss = 0.0
+        for batch_x, batch_y in train_loader:
+            optimizer.zero_grad()
+            outputs = model(batch_x)
+            loss = criterion(outputs, batch_y)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            optimizer.step()
+            train_loss += loss.item()
+        
+        # Validation
+        model.eval()
+        with torch.no_grad():
+            val_outputs = model(x_val_t)
+            val_loss = criterion(val_outputs, y_val_t).item()
+        
+        train_loss /= len(train_loader)
+        history['loss'].append(train_loss)
+        history['val_loss'].append(val_loss)
+        scheduler.step(val_loss)
+        
+        # Early stopping
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_state = model.state_dict()
+            patience_counter = 0
+        else:
+            patience_counter += 1
+            if patience_counter >= 10:
+                break
+    
+    # Restore best weights
+    if best_state is not None:
+        model.load_state_dict(best_state)
+    
+    return history
 
 
 def train_temperature_forecaster(
@@ -181,6 +232,7 @@ def train_temperature_forecaster(
 
     if force_backend in {"auto", "lstm"}:
         try:
+            import torch
             lstm_model = build_lstm_model(input_shape=(x_train.shape[1], x_train.shape[2]))
             history = train_lstm_model(
                 model=lstm_model,
@@ -191,11 +243,12 @@ def train_temperature_forecaster(
                 epochs=epochs,
                 batch_size=batch_size,
             )
-            lstm_model.save(save_dir / f"{model_tag}_lstm.keras")
+            # Save PyTorch model
+            torch.save(lstm_model.state_dict(), save_dir / f"{model_tag}_lstm.pt")
             return TrainedForecaster(
                 backend="lstm",
                 model=lstm_model,
-                history={key: list(value) for key, value in history.history.items()},
+                history={key: list(value) for key, value in history.items()},
             )
         except Exception as exc:
             if force_backend == "lstm":
@@ -232,7 +285,11 @@ def predict_temperature(forecaster: TrainedForecaster, x_input: np.ndarray) -> n
     """
 
     if forecaster.backend == "lstm":
-        predictions = forecaster.model.predict(x_input, verbose=0).reshape(-1)
+        import torch
+        forecaster.model.eval()
+        with torch.no_grad():
+            x_tensor = torch.FloatTensor(x_input)
+            predictions = forecaster.model(x_tensor).numpy().reshape(-1)
         return predictions.astype(np.float32)
     if forecaster.backend == "linear":
         predictions = forecaster.model.predict(x_input)
