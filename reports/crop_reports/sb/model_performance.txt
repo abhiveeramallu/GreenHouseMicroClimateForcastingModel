@@ -1,7 +1,7 @@
 === Forecast Performance Report: sb ===
-Model backend: dynamic_inverse_rmse_weighted_ensemble[linear_baseline:0.21, linear_regression:0.21, random_forest:0.21, gradient_boosting:0.21, naive_persistence:0.15]
+Model backend: dynamic_inverse_rmse_weighted_ensemble[lstm:0.20, linear_baseline:0.17, linear_regression:0.17, random_forest:0.17, gradient_boosting:0.17, naive_persistence:0.12]
 Samples: 994
-MAE (C): 1.0209
-RMSE (C): 1.1042
+MAE (C): 1.0210
+RMSE (C): 1.0975
 MAPE (%): 2.89
-R2: -0.0481
+R2: -0.0354

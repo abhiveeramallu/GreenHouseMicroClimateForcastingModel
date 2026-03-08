@@ -2,56 +2,56 @@
   "records": [
     {
       "rank": 1,
+      "model": "lstm",
+      "mae": 1.2844376400922626,
+      "rmse": 1.402466574396828,
+      "r2": -0.005615973907794336
+    },
+    {
+      "rank": 2,
       "model": "random_forest",
       "mae": 1.2979513356383419,
       "rmse": 1.4133350633877562,
       "r2": -0.021262515240959345
     },
     {
-      "rank": 2,
+      "rank": 3,
       "model": "gradient_boosting",
       "mae": 1.2926650517423388,
       "rmse": 1.415500761357145,
       "r2": -0.02439473884039356
     },
     {
-      "rank": 3,
+      "rank": 4,
+      "model": "hybrid_coordinated",
+      "mae": 1.2992706912863903,
+      "rmse": 1.420875360057656,
+      "r2": -0.03218867758237254
+    },
+    {
+      "rank": 5,
       "model": "linear_baseline",
       "mae": 1.3051725115094865,
       "rmse": 1.42531359349971,
       "r2": -0.038647018924250265
     },
     {
-      "rank": 4,
+      "rank": 6,
       "model": "linear_regression",
       "mae": 1.3063904476357657,
       "rmse": 1.4281829781337316,
       "r2": -0.04283315409932764
     },
     {
-      "rank": 5,
-      "model": "hybrid_coordinated",
-      "mae": 1.3029093675210441,
-      "rmse": 1.4300908882510734,
-      "r2": -0.04562125748784984
-    },
-    {
-      "rank": 6,
+      "rank": 7,
       "model": "naive_persistence",
       "mae": 1.4993755524786905,
       "rmse": 2.011474817666114,
       "r2": -1.0685990669302048
-    },
-    {
-      "rank": 7,
-      "model": "lstm",
-      "mae": NaN,
-      "rmse": NaN,
-      "r2": NaN
     }
   ],
-  "best_model": "random_forest",
-  "best_rmse": 1.4133350633877562,
+  "best_model": "lstm",
+  "best_rmse": 1.402466574396828,
   "paths": {
     "csv": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sc/model_comparison_artifacts.csv",
     "json": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sc/model_comparison_artifacts.json",
