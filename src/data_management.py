@@ -544,6 +544,8 @@ def generate_lstm_sequences(
 
     target_index = feature_columns.index(target_column)
     values = dataset[feature_columns].to_numpy(dtype=np.float32)
+    # Fill NaN values with 0 to prevent LSTM from producing NaN predictions
+    values = np.nan_to_num(values, nan=0.0, posinf=0.0, neginf=0.0)
     timestamps = dataset[time_column].tolist()
 
     if len(values) <= sequence_length:
