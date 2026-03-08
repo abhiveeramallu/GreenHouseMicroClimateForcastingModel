@@ -6,11 +6,38 @@ This project forecasts greenhouse microclimate temperature from historical CSV d
 The implementation is software-only and CSV-based:
 - Python
 - Pandas, NumPy
-- TensorFlow/Keras (LSTM primary model when available)
-- Parallel secondary models: Random Forest, Gradient Boosting, Linear Regression baseline, optional XGBoost
+- PyTorch LSTM (primary model)
+- Parallel secondary models: Random Forest, Gradient Boosting, Linear Regression baseline
 - Hybrid coordination layer: dynamic weighted ensemble
 - Matplotlib/Seaborn
-- Jupyter Notebook support
+
+## System Architecture
+
+```mermaid
+flowchart LR
+    A[Data Management Module
+CSV ingestion, cleaning, scaling, sequences]
+    B[Machine Learning Forecasting Module
+LSTM + parallel ML models]
+    C[Model Evaluation Module
+MAE, RMSE, R2 comparison table]
+    D[Model Coordination Layer
+Dynamic weighted hybrid prediction]
+    E[Decision and Control Simulation Module
+Threshold rule engine]
+    F[Visualization and Reporting Module
+Dashboard payload + plots + reports]
+
+    A --> B --> C --> D --> E --> F
+```
+
+**Pipeline Flow:**
+1. **Data Management** - Load CSV, clean, scale, generate LSTM sequences
+2. **ML Forecasting** - Train LSTM + Random Forest, Gradient Boosting, Linear Regression
+3. **Model Evaluation** - Compare models using MAE, RMSE, R² metrics
+4. **Hybrid Coordination** - Dynamic inverse-RMSE weighted ensemble
+5. **Decision Control** - Fan/spray threshold logic simulation
+6. **Visualization** - Dashboard with predictions and control actions
 
 ## Research Reference Alignment
 - Paper reference integrated: DOI `10.1038/s41598-025-15615-3`
@@ -134,12 +161,12 @@ PYTHONPATH=/Users/vabhiram/Desktop/softwareeng_project python -m src.dashboard_s
 ### Model Performance (Latest Results)
 
 | Rank | Model | MAE | RMSE | R² |
-|-------|---------|-----|-------|----|
-| 1 | Random Forest | 2.02 | 2.33 | -0.02 |
-| 2 | Linear Baseline | 2.03 | 2.33 | -0.03 |
-| 3 | Primary Linear | 2.03 | 2.33 | -0.03 |
-| 4 | Linear Regression | 2.04 | 2.34 | -0.03 |
-| 5 | Gradient Boosting | 2.03 | 2.34 | -0.03 |
+|------|-------|-----|-------|-----|
+| 1 | LSTM | 1.98 | 2.31 | -0.008 |
+| 2 | Random Forest | 2.02 | 2.33 | -0.019 |
+| 3 | Linear Baseline | 2.03 | 2.33 | -0.025 |
+| 4 | Linear Regression | 2.04 | 2.34 | -0.026 |
+| 5 | Gradient Boosting | 2.03 | 2.34 | -0.027 |
 
 ### Troubleshooting
 
