@@ -2,16 +2,20 @@
 
 ```mermaid
 flowchart LR
-    A[Data Management Module\nCSV ingestion, cleaning, scaling, sequences]
-    B[Machine Learning Forecasting Module\nLSTM + parallel ML models]
-    C[Model Evaluation Module\nMAE, RMSE, R2 comparison table]
-    D[Model Coordination Layer\nDynamic weighted hybrid prediction]
-    E[Decision and Control Simulation Module\nThreshold rule engine]
-    F[Visualization and Reporting Module\nDashboard payload + plots + reports]
-    G[Plant Growth Intelligence Extension\nGrowth prediction, stress analytics, feature importance]
+    A[Data Management Module
+CSV ingestion, cleaning, scaling, sequences]
+    B[Machine Learning Forecasting Module
+LSTM + parallel ML models]
+    C[Model Evaluation Module
+MAE, RMSE, R2 comparison table]
+    D[Model Coordination Layer
+Dynamic weighted hybrid prediction]
+    E[Decision and Control Simulation Module
+Threshold rule engine]
+    F[Visualization and Reporting Module
+Dashboard payload + plots + reports]
 
     A --> B --> C --> D --> E --> F
-    A --> G --> F
 ```
 
-This extends the existing architecture without removing any original module.
+This architecture implements a complete microclimate forecasting pipeline.

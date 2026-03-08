@@ -1,6 +1,9 @@
 {
   "notes": {
-    "xgboost": "Unavailable: No module named 'xgboost'"
+    "xgboost": "Unavailable: No module named 'xgboost'",
+    "primary_backend": "linear",
+    "lstm_candidate": "Unavailable: No module named 'tensorflow'",
+    "primary_fallback_reason": "LSTM unavailable, switched to linear baseline: No module named 'tensorflow'"
   },
   "models": [
     "linear_baseline",

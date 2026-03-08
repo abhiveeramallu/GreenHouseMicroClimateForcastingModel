@@ -14,4 +14,3 @@ Data Collection (CSV-only)
 -> Final Optimized Temperature Prediction
 -> Decision and Control Simulation (fan/spray thresholds unchanged)
 -> Visualization and Reporting
--> Plant Growth Intelligence Analytics

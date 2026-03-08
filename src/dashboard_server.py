@@ -26,7 +26,6 @@ from src.pipeline_data_prep import run_full_project_workflow
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
 DASHBOARD_INDEX_PATH = REPORTS_DIR / "ui_payload" / "dashboard_payload.json"
 OVERALL_RESULTS_PATH = REPORTS_DIR / "overall_crop_results.csv"
-PLANT_SUMMARY_PATH = REPORTS_DIR / "plant_growth_intelligence" / "plant_growth_intelligence_summary.json"
 
 
 def _as_number(value: Any) -> float | None:
@@ -36,16 +35,6 @@ def _as_number(value: Any) -> float | None:
         return float(value)
     except Exception:
         return None
-
-
-def _load_plant_intelligence_fallback() -> Dict[str, Any]:
-    if not PLANT_SUMMARY_PATH.exists():
-        return {}
-    try:
-        payload = json.loads(PLANT_SUMMARY_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-    return payload if isinstance(payload, dict) else {}
 
 
 def _load_dashboard_bundle() -> Dict[str, Any]:
@@ -99,21 +88,6 @@ def _load_dashboard_bundle() -> Dict[str, Any]:
             }
         )
 
-    plant_info_raw = index_payload.get("plant_growth_intelligence", {})
-    plant_payload: Dict[str, Any] = plant_info_raw if isinstance(plant_info_raw, dict) else {}
-    if not plant_payload or plant_payload.get("status") != "completed":
-        fallback_payload = _load_plant_intelligence_fallback()
-        if fallback_payload:
-            plant_payload = fallback_payload
-
-    figure_paths = plant_payload.get("figures", {}) if isinstance(plant_payload.get("figures", {}), dict) else {}
-    figure_api_urls = {}
-    for key, raw_path in figure_paths.items():
-        path_obj = Path(str(raw_path))
-        if path_obj.exists():
-            figure_api_urls[str(key)] = f"/api/plant-figure?key={key}"
-    plant_payload["figure_api_urls"] = figure_api_urls
-
     crop_entries.sort(key=lambda entry: entry["crop_type"])
     return {
         "project": index_payload.get("project", "Microclimate Forecasting System"),
@@ -124,44 +98,8 @@ def _load_dashboard_bundle() -> Dict[str, Any]:
             "high_threshold_c": DEFAULT_HIGH_THRESHOLD_C,
             "spray_threshold_c": DEFAULT_SPRAY_THRESHOLD_C,
         },
-        "plant_growth_intelligence": plant_payload,
         "crops": crop_entries,
     }
-
-
-def _resolve_plant_figure_path(figure_key: str) -> Path | None:
-    plant_info: Dict[str, Any] = {}
-    if DASHBOARD_INDEX_PATH.exists():
-        index_payload = json.loads(DASHBOARD_INDEX_PATH.read_text(encoding="utf-8"))
-        raw = index_payload.get("plant_growth_intelligence", {})
-        if isinstance(raw, dict):
-            plant_info = raw
-    if not plant_info or plant_info.get("status") != "completed":
-        fallback = _load_plant_intelligence_fallback()
-        if isinstance(fallback, dict) and fallback:
-            plant_info = fallback
-
-    if not isinstance(plant_info, dict):
-        return None
-
-    figures = plant_info.get("figures", {})
-    if not isinstance(figures, dict):
-        return None
-
-    raw_path = figures.get(figure_key)
-    if raw_path is None:
-        return None
-
-    figure_path = Path(str(raw_path)).resolve()
-    project_root = PROJECT_ROOT.resolve()
-    try:
-        figure_path.relative_to(project_root)
-    except Exception:
-        return None
-
-    if not figure_path.exists() or not figure_path.is_file():
-        return None
-    return figure_path
 
 
 class DashboardRequestHandler(SimpleHTTPRequestHandler):
@@ -193,18 +131,6 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
-        if parsed.path == "/api/plant-figure":
-            params = parse_qs(parsed.query)
-            figure_key = str(params.get("key", [""])[0]).strip()
-            if not figure_key:
-                self._send_json({"error": "Missing figure key."}, status_code=400)
-                return
-            figure_path = _resolve_plant_figure_path(figure_key)
-            if figure_path is None:
-                self._send_json({"error": f"Unknown or unavailable figure key '{figure_key}'."}, status_code=404)
-                return
-            self._send_binary_file(figure_path, status_code=200)
-            return
 
         if parsed.path == "/api/dashboard":
             params = parse_qs(parsed.query)
