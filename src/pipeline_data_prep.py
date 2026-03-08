@@ -142,7 +142,21 @@ def _save_numpy_arrays(output_dir: Path, arrays: Dict[str, np.ndarray]) -> None:
 
 def _write_json(payload: Dict[str, Any], output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    
+    def clean_nan(obj: Any) -> Any:
+        """Recursively convert NaN/Inf values to None for JSON serialization."""
+        if isinstance(obj, dict):
+            return {k: clean_nan(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [clean_nan(item) for item in obj]
+        elif isinstance(obj, float):
+            if np.isnan(obj) or np.isinf(obj):
+                return None
+            return obj
+        return obj
+    
+    cleaned_payload = clean_nan(payload)
+    output_path.write_text(json.dumps(cleaned_payload, indent=2), encoding="utf-8")
 
 
 def _write_hybrid_architecture_docs() -> Dict[str, str]:

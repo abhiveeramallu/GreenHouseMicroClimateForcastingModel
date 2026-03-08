@@ -1,6 +1,6 @@
 === Control Simulation Report: tc ===
 Total simulated records: 994
-Fan ON events: 0
-Spray ON events: 0
-Fan + Spray events: 0
-Idle events: 994
+Fan ON events: 994
+Spray ON events: 994
+Fan + Spray events: 994
+Idle events: 0

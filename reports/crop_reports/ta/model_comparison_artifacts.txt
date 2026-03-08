@@ -6,6 +6,6 @@ Best RMSE: 3.8052
 #2 linear_baseline: MAE=3.2288, RMSE=3.8259, R2=-0.0276
 #3 linear_regression: MAE=3.2312, RMSE=3.8265, R2=-0.0279
 #4 gradient_boosting: MAE=3.2223, RMSE=3.8369, R2=-0.0335
-#5 naive_persistence: MAE=4.2142, RMSE=5.4362, R2=-1.0745
-#6 lstm: MAE=nan, RMSE=nan, R2=nan
-#7 hybrid_coordinated: MAE=nan, RMSE=nan, R2=nan
+#5 hybrid_coordinated: MAE=3.2535, RMSE=3.8505, R2=-0.0408
+#6 naive_persistence: MAE=4.2142, RMSE=5.4362, R2=-1.0745
+#7 lstm: MAE=nan, RMSE=nan, R2=nan
