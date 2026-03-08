@@ -1,0 +1,6 @@
+=== Control Simulation Report: sc ===
+Total simulated records: 994
+Fan ON events: 994
+Spray ON events: 994
+Fan + Spray events: 994
+Idle events: 0

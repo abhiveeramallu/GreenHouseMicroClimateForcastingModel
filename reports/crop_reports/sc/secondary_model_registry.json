@@ -1,0 +1,13 @@
+{
+  "notes": {
+    "xgboost": "Unavailable: No module named 'xgboost'"
+  },
+  "models": [
+    "linear_baseline",
+    "naive_persistence",
+    "primary_linear",
+    "linear_regression",
+    "random_forest",
+    "gradient_boosting"
+  ]
+}

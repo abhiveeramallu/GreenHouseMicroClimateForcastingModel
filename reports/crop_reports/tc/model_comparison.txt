@@ -1,0 +1,11 @@
+=== Model Comparison Report: tc ===
+Best model: linear_baseline
+Best RMSE: 5.6545
+
+#1 linear_baseline: MAE=4.8755, RMSE=5.6545, R2=-0.0230
+#2 primary_linear: MAE=4.8755, RMSE=5.6545, R2=-0.0230
+#3 linear_regression: MAE=4.8772, RMSE=5.6558, R2=-0.0235
+#4 random_forest: MAE=4.8698, RMSE=5.6622, R2=-0.0258
+#5 gradient_boosting: MAE=4.8797, RMSE=5.6704, R2=-0.0288
+#6 hybrid_coordinated: MAE=4.9100, RMSE=5.6930, R2=-0.0370
+#7 naive_persistence: MAE=6.1500, RMSE=7.9893, R2=-1.0423

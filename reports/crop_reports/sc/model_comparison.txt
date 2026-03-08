@@ -1,0 +1,11 @@
+=== Model Comparison Report: sc ===
+Best model: random_forest
+Best RMSE: 1.4133
+
+#1 random_forest: MAE=1.2980, RMSE=1.4133, R2=-0.0213
+#2 gradient_boosting: MAE=1.2927, RMSE=1.4155, R2=-0.0244
+#3 linear_baseline: MAE=1.3052, RMSE=1.4253, R2=-0.0386
+#4 primary_linear: MAE=1.3052, RMSE=1.4253, R2=-0.0386
+#5 hybrid_coordinated: MAE=1.3033, RMSE=1.4258, R2=-0.0394
+#6 linear_regression: MAE=1.3064, RMSE=1.4282, R2=-0.0428
+#7 naive_persistence: MAE=1.4994, RMSE=2.0115, R2=-1.0686

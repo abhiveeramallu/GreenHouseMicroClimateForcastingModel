@@ -1,0 +1,11 @@
+=== Model Comparison Report: mixed_crop ===
+Best model: gradient_boosting
+Best RMSE: 0.2524
+
+#1 gradient_boosting: MAE=0.2467, RMSE=0.2524, R2=-0.5923
+#2 naive_persistence: MAE=0.4500, RMSE=0.4528, R2=-4.1250
+#3 hybrid_coordinated: MAE=0.5165, RMSE=0.5165, R2=-5.6686
+#4 linear_baseline: MAE=0.5392, RMSE=0.5398, R2=-6.2851
+#5 primary_linear: MAE=0.5392, RMSE=0.5398, R2=-6.2851
+#6 linear_regression: MAE=0.5544, RMSE=0.5545, R2=-6.6867
+#7 random_forest: MAE=0.5869, RMSE=0.5925, R2=-7.7756
