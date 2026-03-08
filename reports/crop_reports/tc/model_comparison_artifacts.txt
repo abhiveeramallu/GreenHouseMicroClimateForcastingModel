@@ -6,6 +6,6 @@ Best RMSE: 5.6545
 #2 linear_regression: MAE=4.8772, RMSE=5.6558, R2=-0.0235
 #3 random_forest: MAE=4.8698, RMSE=5.6622, R2=-0.0258
 #4 gradient_boosting: MAE=4.8797, RMSE=5.6704, R2=-0.0288
-#5 naive_persistence: MAE=6.1500, RMSE=7.9893, R2=-1.0423
-#6 lstm: MAE=nan, RMSE=nan, R2=nan
-#7 hybrid_coordinated: MAE=nan, RMSE=nan, R2=nan
+#5 hybrid_coordinated: MAE=4.9327, RMSE=5.7172, R2=-0.0458
+#6 naive_persistence: MAE=6.1500, RMSE=7.9893, R2=-1.0423
+#7 lstm: MAE=nan, RMSE=nan, R2=nan

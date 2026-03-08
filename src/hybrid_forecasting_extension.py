@@ -182,6 +182,9 @@ def coordinate_hybrid_prediction(
             continue
         val_arr = np.asarray(val_pred, dtype=np.float64).reshape(-1)
         test_arr = np.asarray(test_predictions[name], dtype=np.float64).reshape(-1)
+        # Skip models with NaN predictions
+        if np.isnan(val_arr).any() or np.isnan(test_arr).any():
+            continue
         if len(val_arr) != len(y_validation) or len(test_arr) == 0:
             continue
         valid_models[name] = (val_arr, test_arr)

@@ -4,32 +4,32 @@
   "payloads": [
     {
       "crop_type": "sa",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[random_forest:0.21, linear_baseline:0.21, linear_regression:0.21, gradient_boosting:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sa/ui_payload.json"
     },
     {
       "crop_type": "sb",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:0.21, linear_regression:0.21, random_forest:0.21, gradient_boosting:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sb/ui_payload.json"
     },
     {
       "crop_type": "sc",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[random_forest:0.21, linear_baseline:0.21, linear_regression:0.21, gradient_boosting:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sc/ui_payload.json"
     },
     {
       "crop_type": "ta",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[random_forest:0.21, gradient_boosting:0.21, linear_baseline:0.21, linear_regression:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/ta/ui_payload.json"
     },
     {
       "crop_type": "tb",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[random_forest:0.21, linear_baseline:0.21, linear_regression:0.21, gradient_boosting:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tb/ui_payload.json"
     },
     {
       "crop_type": "tc",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_baseline:nan, naive_persistence:nan, lstm:nan, linear_regression:nan, random_forest:nan, gradient_boosting:nan]",
+      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[gradient_boosting:0.21, random_forest:0.21, linear_regression:0.21, linear_baseline:0.21, naive_persistence:0.15]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tc/ui_payload.json"
     }
   ],

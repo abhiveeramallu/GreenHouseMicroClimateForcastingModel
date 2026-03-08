@@ -30,21 +30,21 @@
     },
     {
       "rank": 5,
+      "model": "hybrid_coordinated",
+      "mae": 3.2534741261595452,
+      "rmse": 3.8505049387793195,
+      "r2": -0.04081344976874712
+    },
+    {
+      "rank": 6,
       "model": "naive_persistence",
       "mae": 4.214201829323106,
       "rmse": 5.436151749326362,
       "r2": -1.0745345358512175
     },
     {
-      "rank": 6,
-      "model": "lstm",
-      "mae": NaN,
-      "rmse": NaN,
-      "r2": NaN
-    },
-    {
       "rank": 7,
-      "model": "hybrid_coordinated",
+      "model": "lstm",
       "mae": NaN,
       "rmse": NaN,
       "r2": NaN
