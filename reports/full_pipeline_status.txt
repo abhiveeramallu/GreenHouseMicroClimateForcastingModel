@@ -1,0 +1,11 @@
+=== Full Pipeline Run Summary ===
+Crops discovered: 6
+Crops processed: 6
+Raw inputs classified into files: 6
+Overall results table: /Users/vabhiram/Desktop/softwareeng_project/reports/overall_crop_results.csv
+Overall model comparison: /Users/vabhiram/Desktop/softwareeng_project/reports/overall_model_comparison.csv
+Overall model ranking: /Users/vabhiram/Desktop/softwareeng_project/reports/overall_model_ranking.csv
+Plant intelligence status: completed
+Architecture doc: /Users/vabhiram/Desktop/softwareeng_project/docs/hybrid_system_architecture.md
+Methodology doc: /Users/vabhiram/Desktop/softwareeng_project/docs/updated_ml_pipeline.md
+Contribution note: /Users/vabhiram/Desktop/softwareeng_project/docs/paper_contribution_analysis.md

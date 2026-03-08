@@ -1,0 +1,79 @@
+=== Data Validation Summary ===
+Raw shape: (30000, 15)
+Cleaned shape: (30000, 15)
+Selected (temperature-only) shape: (30000, 15)
+Scaled shape: (30000, 15)
+
+Missing values in raw dataset:
+Random                   30000
+indoor_temperature_c         0
+humidity_pct                 0
+soil_moisture_pct            0
+light_lux                    0
+co2_ppm                      0
+ambient_temperature_c        0
+canopy_temperature_c         0
+PDMVG                        0
+ARL                          0
+AWWR                         0
+ADWV                         0
+PDMRG                        0
+crop_type                    0
+timestamp                    0
+
+Missing values after cleaning:
+Random                   30000
+indoor_temperature_c         0
+humidity_pct                 0
+soil_moisture_pct            0
+light_lux                    0
+co2_ppm                      0
+ambient_temperature_c        0
+canopy_temperature_c         0
+PDMVG                        0
+ARL                          0
+AWWR                         0
+ADWV                         0
+PDMRG                        0
+crop_type                    0
+timestamp                    0
+
+Selected feature columns:
+timestamp, crop_type, indoor_temperature_c, canopy_temperature_c, ambient_temperature_c, humidity_pct, soil_moisture_pct, co2_ppm, light_lux, Random, PDMVG, ARL, AWWR, ADWV, PDMRG
+
+Scaled feature min values:
+indoor_temperature_c     0.0
+canopy_temperature_c     0.0
+ambient_temperature_c    0.0
+humidity_pct             0.0
+soil_moisture_pct        0.0
+co2_ppm                  0.0
+light_lux                0.0
+Random                   NaN
+PDMVG                    0.0
+ARL                      0.0
+AWWR                     0.0
+ADWV                     0.0
+PDMRG                    0.0
+
+Scaled feature max values:
+indoor_temperature_c     1.0
+canopy_temperature_c     1.0
+ambient_temperature_c    1.0
+humidity_pct             1.0
+soil_moisture_pct        1.0
+co2_ppm                  1.0
+light_lux                1.0
+Random                   NaN
+PDMVG                    1.0
+ARL                      1.0
+AWWR                     1.0
+ADWV                     1.0
+PDMRG                    1.0
+
+=== Full Pipeline Configuration ===
+Input sources: ['/Users/vabhiram/Desktop/softwareeng_project/data/raw/external_kaggle/greenhouse_plant_growth_metrics.csv']
+Resolved target column: indoor_temperature_c
+Sequence length: 6
+Test ratio: 0.2
+Control thresholds (low/high/spray): 22.0/29.0/31.0

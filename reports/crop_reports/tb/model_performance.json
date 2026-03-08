@@ -1,0 +1,8 @@
+{
+  "mae": 0.6017461197237134,
+  "rmse": 0.6585668922974489,
+  "mape_pct": 1.3998735495570833,
+  "r2": -0.031313502680811345,
+  "sample_count": 994,
+  "backend": "dynamic_inverse_rmse_weighted_ensemble[primary_linear:0.20, random_forest:0.17, linear_baseline:0.17, linear_regression:0.17, gradient_boosting:0.17, naive_persistence:0.12]"
+}

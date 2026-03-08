@@ -1,0 +1,22 @@
+=== Plant Growth Intelligence Summary ===
+Dataset: /Users/vabhiram/Desktop/softwareeng_project/data/raw/external_kaggle/greenhouse_plant_growth_metrics.csv
+Rows analyzed: 30000
+Growth predictor: RandomForestRegressor
+MAE: 6.5857
+RMSE: 8.7038
+R2: 0.4187
+
+Stress level distribution:
+- high: 1625
+- low: 24696
+- moderate: 3679
+
+Top contributing features:
+- ARL: 0.5405
+- Class_TB: 0.2888
+- PDMRG: 0.0656
+- ALAP: 0.0222
+- PDMVG: 0.0216
+- ARD: 0.0196
+- ANPL: 0.0166
+- Class_SB: 0.0166

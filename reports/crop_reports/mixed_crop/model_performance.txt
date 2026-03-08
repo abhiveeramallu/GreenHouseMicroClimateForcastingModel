@@ -1,0 +1,7 @@
+=== Forecast Performance Report: mixed_crop ===
+Model backend: dynamic_inverse_rmse_weighted_ensemble[primary_linear:0.30, linear_baseline:0.26, linear_regression:0.20, naive_persistence:0.12, gradient_boosting:0.06, random_forest:0.05]
+Samples: 2
+MAE (C): 0.5165
+RMSE (C): 0.5165
+MAPE (%): 1.74
+R2: -5.6686

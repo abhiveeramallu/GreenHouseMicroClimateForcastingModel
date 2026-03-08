@@ -1,0 +1,3 @@
+timestamp,crop_type,actual_temperature_c,predicted_temperature_c,absolute_error_c,pred_linear_baseline_c,pred_naive_persistence_c,pred_primary_linear_c,pred_linear_regression_c,pred_random_forest_c,pred_gradient_boosting_c
+2025-06-02T14:00:00,mixed_crop,29.5,28.985935,0.5140648,28.985554,29.0,28.985554,28.95527,28.832039,29.199968
+2025-06-02T15:00:00,mixed_crop,29.900002,29.38113,0.5188713,29.335949,29.5,29.335949,29.3359,29.394156,29.706705

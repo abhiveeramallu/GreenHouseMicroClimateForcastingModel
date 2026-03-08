@@ -1,0 +1,12 @@
+{
+  "minimums": {
+    "indoor_temperature_c": 21.839,
+    "canopy_temperature_c": 21.278,
+    "ambient_temperature_c": 20.7
+  },
+  "maximums": {
+    "indoor_temperature_c": 30.022,
+    "canopy_temperature_c": 28.722,
+    "ambient_temperature_c": 27.661
+  }
+}

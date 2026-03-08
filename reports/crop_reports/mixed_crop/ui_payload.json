@@ -1,0 +1,138 @@
+{
+  "crop_type": "mixed_crop",
+  "timestamps": [
+    "2025-06-02T14:00:00",
+    "2025-06-02T15:00:00"
+  ],
+  "actual_temperature_c": [
+    29.5,
+    29.899999618530273
+  ],
+  "predicted_temperature_c": [
+    28.98590087890625,
+    29.381099700927734
+  ],
+  "absolute_error_c": [
+    0.5141000151634216,
+    0.5188999772071838
+  ],
+  "actions": [
+    "idle",
+    "fan_on"
+  ],
+  "fan_on": [
+    0,
+    1
+  ],
+  "spray_on": [
+    0,
+    0
+  ],
+  "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[primary_linear:0.30, linear_baseline:0.26, linear_regression:0.20, naive_persistence:0.12, gradient_boosting:0.06, random_forest:0.05]",
+  "model_weights": {
+    "linear_baseline": 0.26241281285095286,
+    "naive_persistence": 0.12110257357637663,
+    "primary_linear": 0.3017747347785958,
+    "linear_regression": 0.20180972765864758,
+    "random_forest": 0.05290339406096943,
+    "gradient_boosting": 0.059996757074457764
+  },
+  "validation_rmse": {
+    "linear_baseline": 0.01358218933146084,
+    "naive_persistence": 0.02943075776085815,
+    "primary_linear": 0.01358218933146084,
+    "linear_regression": 0.017660895480575797,
+    "random_forest": 0.06737073434334452,
+    "gradient_boosting": 0.05940555258211101
+  },
+  "model_comparison": [
+    {
+      "rank": 1,
+      "model": "gradient_boosting",
+      "mae": 0.24666404724121094,
+      "rmse": 0.25237126323157677,
+      "r2": -0.5922692145543373
+    },
+    {
+      "rank": 2,
+      "model": "naive_persistence",
+      "mae": 0.4500007629394531,
+      "rmse": 0.4527699309281996,
+      "r2": -4.124976158278513
+    },
+    {
+      "rank": 3,
+      "model": "hybrid_coordinated",
+      "mae": 0.5164680480957031,
+      "rmse": 0.5164736395586319,
+      "r2": -5.668574631689625
+    },
+    {
+      "rank": 4,
+      "model": "linear_baseline",
+      "mae": 0.5392494201660156,
+      "rmse": 0.5398195383420149,
+      "r2": -6.2850727685943015
+    },
+    {
+      "rank": 5,
+      "model": "primary_linear",
+      "mae": 0.5392494201660156,
+      "rmse": 0.5398195383420149,
+      "r2": -6.2850727685943015
+    },
+    {
+      "rank": 6,
+      "model": "linear_regression",
+      "mae": 0.5544157028198242,
+      "rmse": 0.5545003149096269,
+      "r2": -6.686706335844747
+    },
+    {
+      "rank": 7,
+      "model": "random_forest",
+      "mae": 0.5869035720825195,
+      "rmse": 0.592474580970164,
+      "r2": -7.775586274856652
+    }
+  ],
+  "best_model": "gradient_boosting",
+  "model_prediction_columns": [
+    "pred_linear_baseline_c",
+    "pred_naive_persistence_c",
+    "pred_primary_linear_c",
+    "pred_linear_regression_c",
+    "pred_random_forest_c",
+    "pred_gradient_boosting_c"
+  ],
+  "model_prediction_series": {
+    "hybrid_coordinated": [
+      28.98590087890625,
+      29.381099700927734
+    ],
+    "linear_baseline": [
+      28.985599517822266,
+      29.336000442504883
+    ],
+    "naive_persistence": [
+      29.0,
+      29.5
+    ],
+    "primary_linear": [
+      28.985599517822266,
+      29.336000442504883
+    ],
+    "linear_regression": [
+      28.955299377441406,
+      29.335899353027344
+    ],
+    "random_forest": [
+      28.832000732421875,
+      29.39419937133789
+    ],
+    "gradient_boosting": [
+      29.200000762939453,
+      29.70669937133789
+    ]
+  }
+}

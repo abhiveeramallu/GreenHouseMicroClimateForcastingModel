@@ -1,0 +1,32 @@
+{
+  "minimums": {
+    "indoor_temperature_c": 33.06619357232283,
+    "canopy_temperature_c": 0.7366998802062836,
+    "ambient_temperature_c": 15.931026172856548,
+    "humidity_pct": 45.569276294947656,
+    "soil_moisture_pct": 1.0743596366840067,
+    "co2_ppm": 3.967159166022789,
+    "light_lux": 981.4284458770004,
+    "Random": NaN,
+    "PDMVG": 18.372880360792347,
+    "ARL": 17.29446060542879,
+    "AWWR": 2.7344353672442723,
+    "ADWV": 0.1764428013108153,
+    "PDMRG": 27.880178330133788
+  },
+  "maximums": {
+    "indoor_temperature_c": 36.33928960734825,
+    "canopy_temperature_c": 1.740683116996233,
+    "ambient_temperature_c": 17.03711144044366,
+    "humidity_pct": 67.11115029107101,
+    "soil_moisture_pct": 1.396050599209546,
+    "co2_ppm": 5.01680099815383,
+    "light_lux": 1284.268559848825,
+    "Random": NaN,
+    "PDMVG": 31.438135808064768,
+    "ARL": 20.86925973169236,
+    "AWWR": 2.989762035641043,
+    "ADWV": 0.4613286325285973,
+    "PDMRG": 57.644104224676305
+  }
+}

@@ -1,0 +1,3 @@
+timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
+2025-06-02T14:00:00,mixed_crop,28.98593521118164,idle,0,0,optimal_range
+2025-06-02T15:00:00,mixed_crop,29.38113021850586,fan_on,1,0,high_temperature

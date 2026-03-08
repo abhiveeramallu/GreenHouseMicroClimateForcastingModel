@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greenhouse Microclimate Dashboard</title>
+  <link rel="stylesheet" href="styles.css?v=20260309a">
+</head>
+<body>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="kicker">Microclimate Forecasting System</p>
+        <h1>Greenhouse Temperature Control Dashboard</h1>
+        <p class="subtitle">Live presentation view for actual vs predicted temperature and fan/spray behavior.</p>
+      </div>
+      <div class="control-panel">
+        <label for="cropSelect">Crop/Class</label>
+        <select id="cropSelect"></select>
+        <button id="refreshBtn" class="button" type="button">Refresh Data</button>
+      </div>
+    </header>
+
+    <section class="summary-grid">
+      <article class="card temperature-card">
+        <h2>Current Predicted Temperature</h2>
+        <div class="temp-row">
+          <span id="predictedTemp" class="temp-value">--</span>
+          <span class="temp-unit">°C</span>
+        </div>
+        <p id="temperatureHint" class="card-hint">Waiting for data...</p>
+        <div class="temp-gauge">
+          <div id="tempGaugeFill" class="temp-gauge-fill"></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Current System Action</h2>
+        <p id="actionLabel" class="status-chip neutral">Loading</p>
+        <div class="stats-pair">
+          <div>
+            <span class="label">Actual Temp</span>
+            <span id="actualTemp" class="value">-- °C</span>
+          </div>
+          <div>
+            <span class="label">Absolute Error</span>
+            <span id="absError" class="value">-- °C</span>
+          </div>
+        </div>
+        <p id="timestampLabel" class="card-hint">--</p>
+      </article>
+
+      <article class="card device-card">
+        <h2>Fan State</h2>
+        <div id="fanCard" class="device-state-shell off-state">
+          <div id="fanWidget" class="fan off">
+            <div class="fan-ring"></div>
+            <div class="fan-blades">
+              <span class="blade b1"></span>
+              <span class="blade b2"></span>
+              <span class="blade b3"></span>
+              <span class="hub"></span>
+            </div>
+          </div>
+        </div>
+        <p id="fanLabel" class="device-label off">OFF</p>
+      </article>
+
+      <article class="card device-card">
+        <h2>Spray State</h2>
+        <div id="sprayCard" class="device-state-shell off-state">
+          <div id="sprayWidget" class="spray off">
+            <div class="spray-nozzle"></div>
+            <div class="mist">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <p id="sprayLabel" class="device-label off">OFF</p>
+      </article>
+    </section>
+
+    <section class="card chart-card">
+      <div class="chart-header">
+        <h2>Graph 1: Actual vs Final Hybrid Prediction</h2>
+        <p>Fixed 25-point view. Use horizontal scroll to move through full timeline.</p>
+      </div>
+      <p id="primaryGraphNote" class="chart-subtitle">
+        This graph is the final operational output used by fan/spray decision logic.
+      </p>
+
+      <div class="chart-legend" aria-label="Chart Legend">
+        <button id="legendActual" class="legend-item active" type="button" aria-pressed="true">
+          <span class="legend-swatch actual"></span>
+          <span>Actual</span>
+        </button>
+        <button id="legendPredicted" class="legend-item active" type="button" aria-pressed="true">
+          <span class="legend-swatch predicted"></span>
+          <span>Hybrid Final</span>
+        </button>
+      </div>
+
+      <div id="chartCanvasWrap" class="chart-canvas-wrap">
+        <canvas id="temperatureChart" width="1200" height="560"></canvas>
+        <div id="chartTooltip" class="chart-tooltip hidden"></div>
+      </div>
+
+      <div class="chart-tools chart-bottom-tools">
+        <label for="windowScroll">Horizontal Scroll</label>
+        <input type="range" id="windowScroll" min="0" max="0" value="0" step="1">
+        <span id="windowRangeLabel">--</span>
+      </div>
+
+      <div class="timeline-controls">
+        <button id="playBtn" class="button" type="button">Play</button>
+        <input type="range" id="timeSlider" min="0" max="0" value="0">
+        <span id="sliderText">Step 0 / 0</span>
+      </div>
+      <p id="ruleHint" class="rule-hint">--</p>
+    </section>
+
+    <section class="model-insights-grid">
+      <article class="card">
+        <h2>Hybrid Improvement Snapshot</h2>
+        <div class="stats-pair">
+          <div>
+            <span class="label">Best Individual Model</span>
+            <span id="bestModelLabel" class="value">--</span>
+          </div>
+          <div>
+            <span class="label">Hybrid RMSE Gain vs Naive</span>
+            <span id="hybridGainLabel" class="value">--</span>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Coordination Weights</h2>
+        <p id="weightsText" class="weights-text">--</p>
+      </article>
+    </section>
+
+    <section class="card chart-card model-chart-card">
+      <div class="chart-header">
+        <h2>Graph 2: Model-wise Comparison Graph</h2>
+        <p>Actual + all independent models + coordinated hybrid in one view.</p>
+      </div>
+      <p id="modelGraphNote" class="chart-subtitle">
+        This graph compares each model against actual values; use legend toggles to isolate models.
+      </p>
+
+      <div id="modelLegend" class="chart-legend model-legend" aria-label="Model Chart Legend"></div>
+
+      <div id="modelChartCanvasWrap" class="chart-canvas-wrap">
+        <canvas id="modelTemperatureChart" width="1200" height="520"></canvas>
+        <div id="modelChartTooltip" class="chart-tooltip hidden"></div>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="section-head">
+        <h2>Per-Model Comparison (MAE / RMSE / R²)</h2>
+        <span class="chip">Improvement Proof</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Model</th>
+              <th>MAE</th>
+              <th>RMSE</th>
+              <th>R²</th>
+            </tr>
+          </thead>
+          <tbody id="modelComparisonBody">
+            <tr>
+              <td colspan="5">Loading model comparison...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="section-head">
+        <h2>Recent Forecast Samples</h2>
+        <span class="chip">Sticky Header Table</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Actual (°C)</th>
+              <th>Predicted (°C)</th>
+              <th>Error (°C)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="samplesTableBody">
+            <tr>
+              <td colspan="5">Loading rows...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="card metric-card">
+        <h3>MAE</h3>
+        <p id="maeMetric">--</p>
+      </article>
+      <article class="card metric-card">
+        <h3>RMSE</h3>
+        <p id="rmseMetric">--</p>
+      </article>
+      <article class="card metric-card">
+        <h3>MAPE</h3>
+        <p id="mapeMetric">--</p>
+      </article>
+      <article class="card metric-card">
+        <h3>R²</h3>
+        <p id="r2Metric">--</p>
+      </article>
+      <article class="card metric-card wide">
+        <h3>Model Coordination</h3>
+        <p id="modelCoordination">--</p>
+      </article>
+    </section>
+  </main>
+
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <script src="app.js?v=20260309a"></script>
+</body>
+</html>

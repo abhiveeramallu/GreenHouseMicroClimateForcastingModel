@@ -1,0 +1,11 @@
+=== Model Comparison Report ===
+Best model: linear_regression
+Best RMSE: 1.0832
+
+#1 linear_regression: MAE=1.0132, RMSE=1.0832, R2=-0.0087
+#2 linear_baseline: MAE=1.0134, RMSE=1.0832, R2=-0.0087
+#3 primary_linear: MAE=1.0134, RMSE=1.0832, R2=-0.0087
+#4 random_forest: MAE=1.0159, RMSE=1.0893, R2=-0.0202
+#5 gradient_boosting: MAE=1.0146, RMSE=1.0899, R2=-0.0211
+#6 hybrid_coordinated: MAE=1.0194, RMSE=1.0979, R2=-0.0362
+#7 naive_persistence: MAE=1.1019, RMSE=1.5626, R2=-1.0992

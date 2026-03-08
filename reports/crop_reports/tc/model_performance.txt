@@ -1,0 +1,7 @@
+=== Forecast Performance Report: tc ===
+Model backend: dynamic_inverse_rmse_weighted_ensemble[primary_linear:0.20, gradient_boosting:0.17, random_forest:0.17, linear_regression:0.17, linear_baseline:0.17, naive_persistence:0.12]
+Samples: 994
+MAE (C): 4.9100
+RMSE (C): 5.6930
+MAPE (%): 12.80
+R2: -0.0370
