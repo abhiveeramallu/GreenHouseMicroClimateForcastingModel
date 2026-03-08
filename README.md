@@ -11,33 +11,67 @@ The implementation is software-only and CSV-based:
 - Hybrid coordination layer: dynamic weighted ensemble
 - Matplotlib/Seaborn
 
-## System Architecture
+## Proposed System
+
+The proposed system implements a hybrid machine learning-based microclimate forecasting framework designed to predict greenhouse temperature and simulate environmental control decisions.
+
+### System Architecture
 
 ```mermaid
 flowchart LR
-    A[Data Management Module
-CSV ingestion, cleaning, scaling, sequences]
-    B[Machine Learning Forecasting Module
-LSTM + parallel ML models]
-    C[Model Evaluation Module
-MAE, RMSE, R2 comparison table]
-    D[Model Coordination Layer
-Dynamic weighted hybrid prediction]
-    E[Decision and Control Simulation Module
-Threshold rule engine]
-    F[Visualization and Reporting Module
-Dashboard payload + plots + reports]
+    A[Data Management Module<br/>CSV ingestion, cleaning, scaling, sequences]
+    B[Machine Learning Forecasting Module<br/>LSTM + parallel ML models]
+    C[Hybrid Ensemble Coordination Module<br/>Dynamic weighted prediction]
+    D[Decision and Control Simulation Module<br/>Threshold rule engine]
+    E[Visualization and Reporting Module<br/>Dashboard + plots + reports]
 
-    A --> B --> C --> D --> E --> F
+    A --> B --> C --> D --> E
 ```
 
-**Pipeline Flow:**
-1. **Data Management** - Load CSV, clean, scale, generate LSTM sequences
-2. **ML Forecasting** - Train LSTM + Random Forest, Gradient Boosting, Linear Regression
-3. **Model Evaluation** - Compare models using MAE, RMSE, R² metrics
-4. **Hybrid Coordination** - Dynamic inverse-RMSE weighted ensemble
-5. **Decision Control** - Fan/spray threshold logic simulation
-6. **Visualization** - Dashboard with predictions and control actions
+### Primary Modules
+
+The system architecture is composed of five primary modules:
+
+1. **Data Management Module**
+   - Loads historical greenhouse datasets from CSV files
+   - Performs preprocessing: cleaning, normalization, feature selection
+   - Generates LSTM-ready sequences using sliding-window approach
+   - Splits data by crop types (SA, SB, SC, TA, TB, TC)
+
+2. **Machine Learning Forecasting Module**
+   - Trains multiple prediction models in parallel:
+     - Linear Regression
+     - Random Forest Regressor
+     - Gradient Boosting Regressor
+     - LSTM Neural Network (PyTorch)
+   - Each model produces independent temperature predictions
+   - Evaluates models using MAE, RMSE, and R² metrics
+
+3. **Hybrid Ensemble Coordination Module**
+   - Combines predictions using dynamic inverse-RMSE weighted ensemble
+   - Weight calculation: `weight_m = 1 / RMSE_m`
+   - Normalized weight: `weight_m = weight_m / Σ(weight_all)`
+   - Final prediction: `Final_Prediction = Σ(weight_m × prediction_m)`
+   - Assigns greater importance to models with lower prediction error
+
+4. **Decision and Control Simulation Module**
+   - Applies threshold-based control logic to predicted temperatures
+   - Low threshold (18°C): Turn ON fan
+   - High threshold (28°C): Turn ON spray
+   - Normal range (18-28°C): All OFF
+   - Generates fan/spray action timeline for each crop
+
+5. **Visualization and Reporting Module**
+   - Creates interactive dashboard with temperature predictions
+   - Displays model comparison charts and performance metrics
+   - Shows control action timelines
+   - Exports results to CSV, JSON, and figure formats
+
+### System Capabilities
+
+The system processes historical greenhouse datasets, performs preprocessing and sequence generation, trains multiple machine learning models, combines their predictions using a hybrid ensemble strategy, and generates actuator control decisions.
+
+The architecture enables accurate prediction of greenhouse microclimate conditions while maintaining modular extensibility for future enhancements such as plant growth intelligence and IoT sensor integration.
 
 ## Research Reference Alignment
 - Paper reference integrated: DOI `10.1038/s41598-025-15615-3`
