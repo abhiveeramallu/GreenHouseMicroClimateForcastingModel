@@ -972,19 +972,43 @@ function onCropChange() {
   renderCurrentStep();
 }
 
+function getDashboardEndpoints(refresh = false) {
+  const apiEndpoint = refresh ? "/api/dashboard?refresh=1" : "/api/dashboard";
+  const staticEndpoint = "/dashboard_payload.static.json";
+  const hostname = String(window.location.hostname || "").toLowerCase();
+  const isLocalhost = hostname === "127.0.0.1" || hostname === "localhost";
+
+  // Local development prefers live API; hosted demos prefer static payload first.
+  return isLocalhost ? [apiEndpoint, staticEndpoint] : [staticEndpoint, apiEndpoint];
+}
+
+async function fetchDashboardPayload(refresh = false) {
+  const endpoints = getDashboardEndpoints(refresh);
+  let lastError = null;
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} (${endpoint})`);
+      }
+      const payload = await response.json();
+      if (!payload || !Array.isArray(payload.crops) || payload.crops.length === 0) {
+        throw new Error(`No crop data in payload (${endpoint})`);
+      }
+      return { payload, endpoint };
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw (lastError || new Error("No dashboard endpoint is available."));
+}
+
 async function fetchDashboard(refresh = false) {
   try {
     setLoadingState(refresh ? "Refreshing model outputs..." : "Loading dashboard data...");
-    const endpoint = refresh ? "/api/dashboard?refresh=1" : "/api/dashboard";
-    const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const payload = await response.json();
-    if (!payload.crops || payload.crops.length === 0) {
-      throw new Error("No crop data returned from API.");
-    }
+    const { payload, endpoint } = await fetchDashboardPayload(refresh);
 
     state.dashboard = payload;
     state.thresholds = payload.thresholds || state.thresholds;
@@ -1004,7 +1028,8 @@ async function fetchDashboard(refresh = false) {
     hideTooltip();
     renderCurrentStep();
     if (refresh) {
-      showToast("Dashboard data refreshed.");
+      const loadedFromStatic = endpoint.includes("dashboard_payload.static.json");
+      showToast(loadedFromStatic ? "Loaded static dashboard snapshot." : "Dashboard data refreshed.");
     }
   } catch (error) {
     stopPlayback();

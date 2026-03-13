@@ -3,9 +3,9 @@
     {
       "rank": 1,
       "model": "lstm",
-      "mae": 0.6059141024737291,
-      "rmse": 0.651575795740743,
-      "r2": -0.009533656222240783
+      "mae": 0.6116917723381303,
+      "rmse": 0.6501317494711855,
+      "r2": -0.005063883434448746
     },
     {
       "rank": 2,
@@ -38,9 +38,9 @@
     {
       "rank": 6,
       "model": "hybrid_coordinated",
-      "mae": 0.6032683259284712,
-      "rmse": 0.6579730707311691,
-      "r2": -0.029454496093579863
+      "mae": 0.6044186145007251,
+      "rmse": 0.6575061372001049,
+      "r2": -0.027993900566104513
     },
     {
       "rank": 7,
@@ -51,7 +51,7 @@
     }
   ],
   "best_model": "lstm",
-  "best_rmse": 0.651575795740743,
+  "best_rmse": 0.6501317494711855,
   "paths": {
     "csv": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tb/model_comparison_artifacts.csv",
     "json": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tb/model_comparison_artifacts.json",
