@@ -2,24 +2,24 @@
   "records": [
     {
       "rank": 1,
-      "model": "lstm",
-      "mae": 1.0216468680552553,
-      "rmse": 1.0818406614498504,
-      "r2": -0.006145254357860175
-    },
-    {
-      "rank": 2,
       "model": "linear_regression",
       "mae": 1.0131769813522247,
       "rmse": 1.0832140187062351,
       "r2": -0.008701405195391754
     },
     {
-      "rank": 3,
+      "rank": 2,
       "model": "linear_baseline",
       "mae": 1.0133601290359344,
       "rmse": 1.0832161717285902,
       "r2": -0.008705415037945086
+    },
+    {
+      "rank": 3,
+      "model": "lstm",
+      "mae": 1.0476766237070863,
+      "rmse": 1.0870221438353864,
+      "r2": -0.015806212245937035
     },
     {
       "rank": 4,
@@ -38,9 +38,9 @@
     {
       "rank": 6,
       "model": "hybrid_coordinated",
-      "mae": 1.0210197648292096,
-      "rmse": 1.0974790223239161,
-      "r2": -0.03544381291188348
+      "mae": 1.0261239909550073,
+      "rmse": 1.0978406336278195,
+      "r2": -0.0361262676383276
     },
     {
       "rank": 7,
@@ -50,8 +50,8 @@
       "r2": -1.0992124101307912
     }
   ],
-  "best_model": "lstm",
-  "best_rmse": 1.0818406614498504,
+  "best_model": "linear_regression",
+  "best_rmse": 1.0832140187062351,
   "paths": {
     "csv": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sb/model_comparison_artifacts.csv",
     "json": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/sb/model_comparison_artifacts.json",

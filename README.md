@@ -73,128 +73,6 @@ The system processes historical greenhouse datasets, performs preprocessing and 
 
 The architecture enables accurate prediction of greenhouse microclimate conditions while maintaining modular extensibility for future enhancements such as plant growth intelligence and IoT sensor integration.
 
-## Module-wise Inputs and Outputs
-
-### 1. Data Management Module
-
-**Inputs:**
-- `dataset_inputs`: List of CSV file paths or directories
-- `time_column`: Timestamp column name (default: "timestamp")
-- `crop_column`: Crop identifier column (default: "crop_type")
-- `sequence_length`: Number of historical timesteps for LSTM (default: 6)
-- `test_ratio`: Fraction for test set (default: 0.2)
-
-**Outputs:**
-- `X_train`: NumPy array (samples, sequence_length, num_features) - LSTM training sequences
-- `y_train`: NumPy array (samples,) - Training targets
-- `X_test`: NumPy array (samples, sequence_length, num_features) - LSTM test sequences
-- `y_test`: NumPy array (samples,) - Test targets
-- `crop_groups`: Dictionary {crop_name: crop_dataframe} - Data split by crop type
-- `scaling_parameters`: JSON file with min/max values for each feature
-- `classified_inputs/*.csv`: Per-crop CSV files
-
-### 2. Machine Learning Forecasting Module
-
-**Inputs:**
-- `x_train`: Training sequences (samples, sequence_length, num_features)
-- `y_train`: Training targets (samples,)
-- `x_val`: Validation sequences
-- `y_val`: Validation targets
-- `model_dir`: Directory for saving model artifacts
-- `model_tag`: Prefix for saved files (e.g., "sa", "sb")
-- `epochs`: Training epochs (default: 30)
-- `batch_size`: Batch size (default: 16)
-
-**Outputs:**
-- `TrainedForecaster`: Dataclass containing:
-  - `backend`: Model type ("lstm" or "linear")
-  - `model`: Trained model object (PyTorch LSTM or Linear regressor)
-  - `history`: Training history dict with loss values
-  - `fallback_reason`: Optional explanation if LSTM unavailable
-- `models/<crop>/*_lstm.pt`: PyTorch LSTM model weights
-- `models/<crop>/*_linear_weights.npy`: Linear model weights
-- `predictions`: NumPy array of temperature forecasts
-
-### 3. Hybrid Ensemble Coordination Module
-
-**Inputs:**
-- `y_validation`: Validation ground truth array
-- `validation_predictions`: Dictionary {model_name: prediction_array}
-- `test_predictions`: Dictionary {model_name: prediction_array}
-- `preferred_model`: Model to prioritize (default: "lstm")
-
-**Outputs:**
-- `CoordinationResult`: Dataclass containing:
-  - `final_prediction`: Weighted ensemble prediction array
-  - `weights`: Dictionary {model_name: normalized_weight}
-  - `validation_rmse`: Dictionary {model_name: rmse_value}
-  - `method`: Ensemble method name ("dynamic_inverse_rmse_weighted_ensemble")
-- `comparison_df`: DataFrame with model rankings (MAE, RMSE, R²)
-- `model_comparison_artifacts.csv`: Model metrics in CSV format
-
-**Formulas:**
-```
-Weight calculation: weight_m = 1 / RMSE_m
-Normalized weight: weight_m = weight_m / Σ(weight_all)
-Final prediction: Final_Prediction = Σ(weight_m × prediction_m)
-```
-
-### 4. Decision and Control Simulation Module
-
-**Inputs:**
-- `forecast_df`: DataFrame with predicted temperatures
-- `high_threshold`: Fan activation threshold (default: 29°C)
-- `low_threshold`: Lower comfort threshold (default: 22°C)
-- `spray_threshold`: Spray activation threshold (default: 31°C)
-- `timestamp_column`: Time field name
-- `crop_column`: Crop label field
-- `prediction_column`: Forecasted temperature field
-
-**Outputs:**
-- `control_df`: DataFrame with columns:
-  - `timestamp`: Time of prediction
-  - `crop_type`: Crop identifier
-  - `predicted_temperature_c`: Forecasted temperature
-  - `action`: Control action ("fan_on", "fan_and_spray_on", "idle", "cooling_off")
-  - `fan_on`: Binary flag (0 or 1)
-  - `spray_on`: Binary flag (0 or 1)
-  - `status_note`: Descriptive state
-- `control_summary`: Dictionary with aggregate counts:
-  - `total_records`: Total predictions
-  - `fan_on_events`: Count of fan activations
-  - `spray_on_events`: Count of spray activations
-  - `fan_and_spray_events`: Count of both activated
-  - `idle_events`: Count of no action needed
-
-**Threshold Logic:**
-- Temperature ≥ 31°C: fan_and_spray_on (critical high)
-- Temperature ≥ 29°C: fan_on (high temperature)
-- Temperature ≤ 22°C: cooling_off (below cooling range)
-- 22°C < Temperature < 29°C: idle (optimal range)
-
-### 5. Visualization and Reporting Module
-
-**Inputs:**
-- `predictions_df`: DataFrame with actual and predicted temperatures
-- `control_df`: Action timeline DataFrame
-- `comparison_df`: Model comparison metrics
-- `crop_name`: Crop identifier for report context
-- `output_paths`: File paths for TXT, JSON, CSV outputs
-
-**Outputs:**
-- `model_performance_report`: Dictionary with:
-  - `mae`: Mean Absolute Error
-  - `rmse`: Root Mean Square Error
-  - `mape_pct`: Mean Absolute Percentage Error
-  - `r2`: R-squared value
-  - `sample_count`: Number of predictions
-  - `backend`: Model backend used
-- `control_simulation_report`: Dictionary with action counts
-- `overall_model_ranking.csv`: Aggregated model rankings across all crops
-- `overall_crop_results.csv`: Per-crop summary statistics
-- `ui_payload.json`: Dashboard-ready JSON with predictions and actions
-- `*.png` figures: Actual vs predicted plots, model comparison bars, control timelines
-
 ## Research Reference Alignment
 - Paper reference integrated: DOI `10.1038/s41598-025-15615-3`
 - Alignment note: `/Users/vabhiram/Desktop/softwareeng_project/docs/paper_alignment_s41598-025-15615-3.md`
@@ -358,6 +236,36 @@ python -m src.dashboard_server --port 8080
 
 Open:
 - `http://127.0.0.1:8080`
+
+## Vercel Deployment (Static Dashboard)
+This repository is configured for Vercel static hosting using:
+- `/Users/vabhiram/Desktop/softwareeng_project/vercel.json`
+- `/Users/vabhiram/Desktop/softwareeng_project/frontend/dashboard_payload.static.json`
+
+Deploy steps:
+```bash
+cd /Users/vabhiram/Desktop/softwareeng_project
+
+# Optional: regenerate latest reports and static payload before deploy
+source .venv_new/bin/activate
+python -m src.pipeline_data_prep
+python - <<'PY'
+import json
+from pathlib import Path
+from src.dashboard_server import _load_dashboard_bundle
+payload = _load_dashboard_bundle()
+Path("frontend/dashboard_payload.static.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+print("Updated frontend/dashboard_payload.static.json")
+PY
+
+# Commit and deploy with Vercel
+git add frontend/dashboard_payload.static.json frontend/app.js vercel.json README.md
+git commit -m "Prepare static Vercel deployment"
+```
+
+Notes:
+- Hosted Vercel build uses static payload first, then API fallback.
+- Localhost (`127.0.0.1`) still prefers live API (`/api/dashboard`) first.
 
 ## Hybrid Evaluation Command
 To run full pipeline plus hybrid ranking printout:

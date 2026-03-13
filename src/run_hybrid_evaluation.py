@@ -37,6 +37,12 @@ def main() -> None:
             print("Top ranked models (average across crops):")
             print(ranking_df.head(5).to_string(index=False))
 
+    plant_info = results.get("plant_growth_intelligence", {})
+    print(f"Plant intelligence status: {plant_info.get('status', 'unknown')}")
+    if plant_info.get("status") == "completed":
+        summary_json = plant_info.get("reports", {}).get("summary_json", "--")
+        print(f"Plant intelligence summary: {summary_json}")
+
 
 if __name__ == "__main__":
     main()
