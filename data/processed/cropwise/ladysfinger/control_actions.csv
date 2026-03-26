@@ -1,0 +1,9 @@
+timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
+2025-01-12T14:00:00,ladysfinger,30.500001907348633,fan_on,1,0,high_temperature
+2025-01-12T15:00:00,ladysfinger,31.199983596801758,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T16:00:00,ladysfinger,32.39994812011719,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T17:00:00,ladysfinger,33.19994354248047,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T18:00:00,ladysfinger,31.700002670288086,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T19:00:00,ladysfinger,29.600013732910156,fan_on,1,0,high_temperature
+2025-01-12T20:00:00,ladysfinger,26.90005874633789,idle,0,0,optimal_range
+2025-01-12T21:00:00,ladysfinger,24.300052642822266,idle,0,0,optimal_range

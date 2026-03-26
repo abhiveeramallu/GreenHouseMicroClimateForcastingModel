@@ -1,0 +1,6 @@
+=== Control Simulation Report: green_chilli ===
+Total simulated records: 8
+Fan ON events: 5
+Spray ON events: 2
+Fan + Spray events: 2
+Idle events: 3

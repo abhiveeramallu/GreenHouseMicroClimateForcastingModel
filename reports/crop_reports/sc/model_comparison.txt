@@ -1,11 +1,11 @@
 === Model Comparison Report: sc ===
-Best model: lstm
-Best RMSE: 1.4019
+Best model: random_forest
+Best RMSE: 1.4133
 
-#1 lstm: MAE=1.2748, RMSE=1.4019, R2=-0.0049
-#2 random_forest: MAE=1.2980, RMSE=1.4133, R2=-0.0213
+#1 random_forest: MAE=1.2980, RMSE=1.4133, R2=-0.0213
+#2 lstm: MAE=1.3339, RMSE=1.4142, R2=-0.0225
 #3 gradient_boosting: MAE=1.2927, RMSE=1.4155, R2=-0.0244
-#4 hybrid_coordinated: MAE=1.2974, RMSE=1.4208, R2=-0.0321
+#4 hybrid_coordinated: MAE=1.3090, RMSE=1.4225, R2=-0.0345
 #5 linear_baseline: MAE=1.3052, RMSE=1.4253, R2=-0.0386
 #6 linear_regression: MAE=1.3064, RMSE=1.4282, R2=-0.0428
 #7 naive_persistence: MAE=1.4994, RMSE=2.0115, R2=-1.0686

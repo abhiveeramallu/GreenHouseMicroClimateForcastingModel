@@ -35,7 +35,6 @@ from src.config import (
     PROCESSED_DIR,
     RAW_CROP_DIR,
     RAW_DATA_PATH,
-    RAW_EXTERNAL_KAGGLE_PATH,
     RAW_MULTI_CROP_PATH,
     REPORTS_DIR,
 )
@@ -102,9 +101,9 @@ def _resolve_dataset_inputs(custom_inputs: Sequence[str | Path] | None = None) -
     if custom_inputs:
         candidates = [Path(item) for item in custom_inputs]
     else:
-        if RAW_EXTERNAL_KAGGLE_PATH.exists():
-            return [RAW_EXTERNAL_KAGGLE_PATH]
-        candidates = [RAW_EXTERNAL_KAGGLE_PATH, RAW_MULTI_CROP_PATH, RAW_CROP_DIR, RAW_DATA_PATH]
+        # Crop-mode default: use crop-labeled raw temperature datasets.
+        demo_temperature_path = RAW_DATA_PATH.parent / "demo_all_cases_control_logic.csv"
+        candidates = [demo_temperature_path, RAW_MULTI_CROP_PATH, RAW_CROP_DIR]
 
     existing = [path for path in candidates if path.exists()]
     if not existing:

@@ -1,0 +1,9 @@
+timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
+2025-01-06T14:00:00,green_chilli,29.699996948242188,fan_on,1,0,high_temperature
+2025-01-06T15:00:00,green_chilli,30.399978637695312,fan_on,1,0,high_temperature
+2025-01-06T16:00:00,green_chilli,31.599945068359375,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-06T17:00:00,green_chilli,32.399940490722656,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-06T18:00:00,green_chilli,30.900001525878906,fan_on,1,0,high_temperature
+2025-01-06T19:00:00,green_chilli,28.800010681152344,idle,0,0,optimal_range
+2025-01-06T20:00:00,green_chilli,26.100055694580078,idle,0,0,optimal_range
+2025-01-06T21:00:00,green_chilli,23.500049591064453,idle,0,0,optimal_range

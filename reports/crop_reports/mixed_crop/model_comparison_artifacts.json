@@ -2,56 +2,56 @@
   "records": [
     {
       "rank": 1,
-      "model": "gradient_boosting",
-      "mae": 0.24666404724121094,
-      "rmse": 0.25237126323157677,
-      "r2": -0.5922692145543373
+      "model": "linear_baseline",
+      "mae": 0.2184925079345703,
+      "rmse": 0.21849274853213274,
+      "r2": -0.19347930540818092
     },
     {
       "rank": 2,
-      "model": "naive_persistence",
-      "mae": 0.4500007629394531,
-      "rmse": 0.4527699309281996,
-      "r2": -4.124976158278513
+      "model": "hybrid_coordinated",
+      "mae": 0.23770523071289062,
+      "rmse": 0.24039748788553594,
+      "r2": -0.444776560233193
     },
     {
       "rank": 3,
-      "model": "hybrid_coordinated",
-      "mae": 0.5164680480957031,
-      "rmse": 0.5164736395586319,
-      "r2": -5.668574631689625
+      "model": "gradient_boosting",
+      "mae": 0.2468128204345703,
+      "rmse": 0.26963148136830123,
+      "r2": -0.8175318602868704
     },
     {
       "rank": 4,
-      "model": "linear_baseline",
-      "mae": 0.5392494201660156,
-      "rmse": 0.5398195383420149,
-      "r2": -6.2850727685943015
+      "model": "linear_regression",
+      "mae": 0.33295440673828125,
+      "rmse": 0.33302890659411033,
+      "r2": -1.7727116042068825
     },
     {
       "rank": 5,
-      "model": "primary_linear",
-      "mae": 0.5392494201660156,
-      "rmse": 0.5398195383420149,
-      "r2": -6.2850727685943015
+      "model": "naive_persistence",
+      "mae": 0.4499998092651367,
+      "rmse": 0.4527690884017836,
+      "r2": -4.125005960473004
     },
     {
       "rank": 6,
-      "model": "linear_regression",
-      "mae": 0.5544157028198242,
-      "rmse": 0.5545003149096269,
-      "r2": -6.686706335844747
+      "model": "random_forest",
+      "mae": 0.5213375091552734,
+      "rmse": 0.5228904850988609,
+      "r2": -5.8353745226090865
     },
     {
       "rank": 7,
-      "model": "random_forest",
-      "mae": 0.5869035720825195,
-      "rmse": 0.592474580970164,
-      "r2": -7.775586274856652
+      "model": "lstm",
+      "mae": 3.467463493347168,
+      "rmse": 3.46997243436864,
+      "r2": -300.0182915285087
     }
   ],
-  "best_model": "gradient_boosting",
-  "best_rmse": 0.25237126323157677,
+  "best_model": "linear_baseline",
+  "best_rmse": 0.21849274853213274,
   "paths": {
     "csv": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/mixed_crop/model_comparison_artifacts.csv",
     "json": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/mixed_crop/model_comparison_artifacts.json",

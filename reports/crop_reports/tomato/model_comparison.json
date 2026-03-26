@@ -1,0 +1,57 @@
+{
+  "crop_name": "tomato",
+  "best_model": "linear_regression",
+  "best_rmse": 0.0,
+  "models_evaluated": 7,
+  "ranking": [
+    {
+      "rank": 1,
+      "model": "linear_regression",
+      "mae": 0.0,
+      "rmse": 0.0,
+      "r2": 1.0
+    },
+    {
+      "rank": 2,
+      "model": "hybrid_coordinated",
+      "mae": 3.075599670410156e-05,
+      "rmse": 3.895499852275868e-05,
+      "r2": 0.9999999998067965
+    },
+    {
+      "rank": 3,
+      "model": "gradient_boosting",
+      "mae": 0.0005366802215576172,
+      "rmse": 0.0008659155355817306,
+      "r2": 0.9999999045360345
+    },
+    {
+      "rank": 4,
+      "model": "random_forest",
+      "mae": 0.2147369384765625,
+      "rmse": 0.2896489786328271,
+      "r2": 0.9893184959190459
+    },
+    {
+      "rank": 5,
+      "model": "linear_baseline",
+      "mae": 0.6377170085906982,
+      "rmse": 0.7724851656119297,
+      "r2": 0.9240253506461555
+    },
+    {
+      "rank": 6,
+      "model": "naive_persistence",
+      "mae": 1.5125000476837158,
+      "rmse": 1.715007255249814,
+      "r2": 0.625527154132552
+    },
+    {
+      "rank": 7,
+      "model": "lstm",
+      "mae": 2.747044801712036,
+      "rmse": 2.961764826379569,
+      "r2": -0.11683637483300968
+    }
+  ]
+}

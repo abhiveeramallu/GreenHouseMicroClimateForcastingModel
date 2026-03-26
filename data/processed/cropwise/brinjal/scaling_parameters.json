@@ -1,0 +1,20 @@
+{
+  "minimums": {
+    "indoor_temperature_c": 20.8,
+    "canopy_temperature_c": 20.0,
+    "ambient_temperature_c": 19.3,
+    "humidity_pct": 59.64,
+    "soil_moisture_pct": 34.24,
+    "co2_ppm": 424.0,
+    "light_lux": 850.0
+  },
+  "maximums": {
+    "indoor_temperature_c": 32.8,
+    "canopy_temperature_c": 32.0,
+    "ambient_temperature_c": 31.3,
+    "humidity_pct": 74.04,
+    "soil_moisture_pct": 39.64,
+    "co2_ppm": 484.0,
+    "light_lux": 1333.0
+  }
+}

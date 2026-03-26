@@ -1,0 +1,57 @@
+{
+  "crop_name": "green_chilli",
+  "best_model": "linear_regression",
+  "best_rmse": 0.0,
+  "models_evaluated": 7,
+  "ranking": [
+    {
+      "rank": 1,
+      "model": "linear_regression",
+      "mae": 0.0,
+      "rmse": 0.0,
+      "r2": 1.0
+    },
+    {
+      "rank": 2,
+      "model": "hybrid_coordinated",
+      "mae": 3.218650817871094e-05,
+      "rmse": 4.013938046595565e-05,
+      "r2": 0.9999999997948698
+    },
+    {
+      "rank": 3,
+      "model": "gradient_boosting",
+      "mae": 0.0005369186401367188,
+      "rmse": 0.0008657088590263172,
+      "r2": 0.9999999045816221
+    },
+    {
+      "rank": 4,
+      "model": "random_forest",
+      "mae": 0.2147369384765625,
+      "rmse": 0.2896495424911519,
+      "r2": 0.9893184568445735
+    },
+    {
+      "rank": 5,
+      "model": "linear_baseline",
+      "mae": 0.6377179622650146,
+      "rmse": 0.7724861947534012,
+      "r2": 0.9240251660850487
+    },
+    {
+      "rank": 6,
+      "model": "naive_persistence",
+      "mae": 1.512500286102295,
+      "rmse": 1.7150074637789514,
+      "r2": 0.62552715116251
+    },
+    {
+      "rank": 7,
+      "model": "lstm",
+      "mae": 2.4722561836242676,
+      "rmse": 2.7221362890312366,
+      "r2": 0.05657357572863375
+    }
+  ]
+}

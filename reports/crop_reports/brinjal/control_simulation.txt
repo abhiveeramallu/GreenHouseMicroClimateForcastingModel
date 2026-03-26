@@ -1,0 +1,6 @@
+=== Control Simulation Report: brinjal ===
+Total simulated records: 8
+Fan ON events: 6
+Spray ON events: 3
+Fan + Spray events: 3
+Idle events: 2

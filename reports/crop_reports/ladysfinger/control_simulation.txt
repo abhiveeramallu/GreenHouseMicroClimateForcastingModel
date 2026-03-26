@@ -1,0 +1,6 @@
+=== Control Simulation Report: ladysfinger ===
+Total simulated records: 8
+Fan ON events: 6
+Spray ON events: 4
+Fan + Spray events: 4
+Idle events: 2

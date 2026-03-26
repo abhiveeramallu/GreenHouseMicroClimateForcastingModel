@@ -1,0 +1,60 @@
+{
+  "records": [
+    {
+      "rank": 1,
+      "model": "linear_regression",
+      "mae": 0.0,
+      "rmse": 0.0,
+      "r2": 1.0
+    },
+    {
+      "rank": 2,
+      "model": "hybrid_coordinated",
+      "mae": 3.0279159545898438e-05,
+      "rmse": 3.859141840037977e-05,
+      "r2": 0.9999999998103862
+    },
+    {
+      "rank": 3,
+      "model": "gradient_boosting",
+      "mae": 0.0005369186401367188,
+      "rmse": 0.0008662523625439545,
+      "r2": 0.9999999044617521
+    },
+    {
+      "rank": 4,
+      "model": "random_forest",
+      "mae": 0.2147369384765625,
+      "rmse": 0.2896489786328271,
+      "r2": 0.9893184959190459
+    },
+    {
+      "rank": 5,
+      "model": "linear_baseline",
+      "mae": 0.6576073169708252,
+      "rmse": 0.7860763626889372,
+      "r2": 0.9213284181906318
+    },
+    {
+      "rank": 6,
+      "model": "naive_persistence",
+      "mae": 1.5125000476837158,
+      "rmse": 1.715007255249814,
+      "r2": 0.625527154132552
+    },
+    {
+      "rank": 7,
+      "model": "lstm",
+      "mae": 2.738037347793579,
+      "rmse": 2.966518925135102,
+      "r2": -0.12042464875975578
+    }
+  ],
+  "best_model": "linear_regression",
+  "best_rmse": 0.0,
+  "paths": {
+    "csv": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/model_comparison_artifacts.csv",
+    "json": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/model_comparison_artifacts.json",
+    "txt": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/model_comparison_artifacts.txt"
+  }
+}

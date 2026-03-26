@@ -1,0 +1,7 @@
+=== Forecast Performance Report: tomato ===
+Model backend: dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]
+Samples: 8
+MAE (C): 0.0000
+RMSE (C): 0.0000
+MAPE (%): 0.00
+R2: 1.0000

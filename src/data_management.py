@@ -54,14 +54,13 @@ COLUMN_ALIASES = {
         "temperature",
         "temp_c",
         "temp",
-        "achp",
     ],
-    "canopy_temperature_c": ["canopy_temperature_c", "canopy_temperature", "leaf_temperature", "adwr"],
-    "ambient_temperature_c": ["ambient_temperature_c", "ambient_temperature", "outside_temperature", "ard"],
-    "humidity_pct": ["humidity_pct", "humidity", "relative_humidity", "rh", "phr"],
-    "soil_moisture_pct": ["soil_moisture_pct", "soil_moisture", "soil_water_content", "awwgv"],
-    "co2_ppm": ["co2_ppm", "co2", "carbon_dioxide", "anpl"],
-    "light_lux": ["light_lux", "light_intensity", "lux", "sunlight_lux", "alap"],
+    "canopy_temperature_c": ["canopy_temperature_c", "canopy_temperature", "leaf_temperature"],
+    "ambient_temperature_c": ["ambient_temperature_c", "ambient_temperature", "outside_temperature"],
+    "humidity_pct": ["humidity_pct", "humidity", "relative_humidity", "rh"],
+    "soil_moisture_pct": ["soil_moisture_pct", "soil_moisture", "soil_water_content"],
+    "co2_ppm": ["co2_ppm", "co2", "carbon_dioxide"],
+    "light_lux": ["light_lux", "light_intensity", "lux", "sunlight_lux"],
     "days_after_planting": ["days_after_planting", "days", "dap", "day"],
 }
 
@@ -138,6 +137,15 @@ def _apply_alias_renaming(dataset: pd.DataFrame) -> pd.DataFrame:
     return renamed.rename(columns=rename_dict)
 
 
+def _detect_temperature_columns(columns: Iterable[str]) -> List[str]:
+    detected: List[str] = []
+    for col in columns:
+        normalized = _normalize_column_name(str(col))
+        if "temperature" in normalized or re.search(r"(^|_)temp($|_)", normalized):
+            detected.append(str(col))
+    return detected
+
+
 def standardize_greenhouse_schema(
     dataset: pd.DataFrame,
     source_file: str | Path | None = None,
@@ -210,19 +218,28 @@ def load_and_merge_datasets(
         raise ValueError("No CSV files found in provided dataset inputs.")
 
     merged_frames: List[pd.DataFrame] = []
+    skipped_no_temperature: List[str] = []
     for csv_file in csv_files:
         frame = pd.read_csv(csv_file)
-        merged_frames.append(
-            standardize_greenhouse_schema(
-                dataset=frame,
-                source_file=csv_file,
-                time_column=time_column,
-                crop_column=crop_column,
-            )
+        standardized = standardize_greenhouse_schema(
+            dataset=frame,
+            source_file=csv_file,
+            time_column=time_column,
+            crop_column=crop_column,
         )
+        if not _detect_temperature_columns(standardized.columns):
+            skipped_no_temperature.append(str(csv_file))
+            continue
+        merged_frames.append(standardized)
+
+    if not merged_frames:
+        detail = ""
+        if skipped_no_temperature:
+            detail = f" Skipped files with no real temperature columns: {skipped_no_temperature}"
+        raise ValueError(f"No valid temperature CSVs found in provided dataset inputs.{detail}")
 
     merged = pd.concat(merged_frames, ignore_index=True)
-    required_temperature_columns = [col for col in merged.columns if "temperature" in col]
+    required_temperature_columns = _detect_temperature_columns(merged.columns)
     if not required_temperature_columns:
         raise ValueError("Merged dataset does not contain any temperature columns.")
 
