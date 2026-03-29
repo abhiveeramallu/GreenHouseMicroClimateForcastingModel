@@ -4,22 +4,22 @@
   "payloads": [
     {
       "crop_type": "brinjal",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/ui_payload.json"
     },
     {
       "crop_type": "green_chilli",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.09]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/green_chilli/ui_payload.json"
     },
     {
       "crop_type": "ladysfinger",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/ladysfinger/ui_payload.json"
     },
     {
       "crop_type": "tomato",
-      "model_coordination": "dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, gru:0.09, svr_rbf:0.09]",
       "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tomato/ui_payload.json"
     }
   ],

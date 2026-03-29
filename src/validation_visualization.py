@@ -306,9 +306,12 @@ def plot_multi_model_temperature_predictions(
         return
 
     candidate_columns = {
-        "lstm": "pred_lstm_c",
+        "gru": "pred_gru_c",
+        "bilstm": "pred_bilstm_c",
         "random_forest": "pred_random_forest_c",
         "gradient_boosting": "pred_gradient_boosting_c",
+        "svr_rbf": "pred_svr_rbf_c",
+        "knn_regressor": "pred_knn_regressor_c",
         "xgboost": "pred_xgboost_c",
         "linear_regression": "pred_linear_regression_c",
         "hybrid": "predicted_temperature_c",
@@ -334,9 +337,12 @@ def plot_multi_model_temperature_predictions(
     )
 
     color_map = {
-        "lstm": "#4B4DED",
+        "gru": "#4B4DED",
+        "bilstm": "#228BE6",
         "random_forest": "#2D9F5D",
         "gradient_boosting": "#CA6702",
+        "svr_rbf": "#1F7A8C",
+        "knn_regressor": "#8F5F00",
         "xgboost": "#B93B8F",
         "linear_regression": "#6A4C93",
         "hybrid": "#D94801",

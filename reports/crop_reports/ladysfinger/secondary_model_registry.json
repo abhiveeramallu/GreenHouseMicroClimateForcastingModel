@@ -1,15 +1,14 @@
 {
   "notes": {
     "xgboost": "Unavailable: No module named 'xgboost'",
-    "primary_backend": "lstm",
-    "lstm_candidate": "trained_via_primary"
+    "primary_backend": "gru"
   },
   "models": [
-    "linear_baseline",
-    "naive_persistence",
-    "lstm",
+    "gru",
     "linear_regression",
     "random_forest",
-    "gradient_boosting"
+    "gradient_boosting",
+    "svr_rbf",
+    "knn_regressor"
   ]
 }

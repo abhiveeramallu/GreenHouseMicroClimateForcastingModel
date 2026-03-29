@@ -1,9 +1,9 @@
 timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
-2025-01-03T14:00:00,tomato,29.299997329711914,fan_on,1,0,high_temperature
-2025-01-03T15:00:00,tomato,29.999980926513672,fan_on,1,0,high_temperature
-2025-01-03T16:00:00,tomato,31.1999454498291,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-03T17:00:00,tomato,31.99993896484375,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-03T18:00:00,tomato,30.499998092651367,fan_on,1,0,high_temperature
-2025-01-03T19:00:00,tomato,28.400007247924805,idle,0,0,optimal_range
-2025-01-03T20:00:00,tomato,25.70005226135254,idle,0,0,optimal_range
-2025-01-03T21:00:00,tomato,23.100048065185547,idle,0,0,optimal_range
+2025-01-03T14:00:00,tomato,29.492673873901367,fan_on,1,0,high_temperature
+2025-01-03T15:00:00,tomato,30.156414031982422,fan_on,1,0,high_temperature
+2025-01-03T16:00:00,tomato,31.150911331176758,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-03T17:00:00,tomato,31.775020599365234,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-03T18:00:00,tomato,30.511632919311523,fan_on,1,0,high_temperature
+2025-01-03T19:00:00,tomato,28.384231567382812,idle,0,0,optimal_range
+2025-01-03T20:00:00,tomato,25.88973617553711,idle,0,0,optimal_range
+2025-01-03T21:00:00,tomato,23.165294647216797,idle,0,0,optimal_range

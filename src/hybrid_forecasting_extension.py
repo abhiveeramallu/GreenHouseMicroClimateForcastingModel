@@ -2,8 +2,8 @@
 Project: Microclimate Forecasting System using Machine Learning
 Purpose: Extend forecasting with parallel secondary ML models and a coordination layer.
 Module Group: Machine Learning Forecasting Module (Extension)
-DFD Connection: Consumes LSTM-ready sequences from Data Management, coordinates
-multiple model outputs, and returns optimized prediction to Decision & Control Simulation.
+DFD Connection: Consumes sequence outputs from Data Management, coordinates
+multiple model predictions, and returns optimized output to Decision & Control Simulation.
 """
 
 from __future__ import annotations
@@ -16,7 +16,6 @@ import json
 import numpy as np
 import pandas as pd
 
-from src.ml_forecasting_module import LinearSequenceRegressor
 from src.reporting_module import calculate_regression_metrics
 
 
@@ -52,15 +51,15 @@ def train_secondary_forecasters(
     random_state: int = 42,
 ) -> SecondaryModelRegistry:
     """
-    Train independent secondary models for hybrid forecasting.
+    Train independent traditional ML models for hybrid forecasting.
 
-    Inputs:
-    - x_train: LSTM sequence array (samples, sequence_length, feature_count)
-    - y_train: target vector
-    - random_state: reproducibility seed for tree models
-
-    Output:
-    - SecondaryModelRegistry with trained models and notes
+    Active models:
+    - linear_regression
+    - random_forest
+    - gradient_boosting
+    - svr_rbf
+    - knn_regressor
+    - optional xgboost
     """
 
     models: Dict[str, Any] = {}
@@ -69,62 +68,76 @@ def train_secondary_forecasters(
     x_flat = _safe_array(_flatten_sequences(x_train))
     y_safe = _safe_array(y_train)
 
-    sklearn_available = True
     try:
         from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
         from sklearn.linear_model import LinearRegression
+        from sklearn.neighbors import KNeighborsRegressor
+        from sklearn.pipeline import Pipeline
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.svm import SVR
     except Exception as exc:  # pragma: no cover - depends on runtime environment
-        sklearn_available = False
-        notes["sklearn"] = f"Unavailable: {exc}"
+        raise RuntimeError(f"scikit-learn is required for secondary forecasters: {exc}") from exc
 
-    if sklearn_available:
-        lr_model = LinearRegression()
-        lr_model.fit(x_flat, y_safe)
-        models["linear_regression"] = lr_model
+    lr_model = LinearRegression()
+    lr_model.fit(x_flat, y_safe)
+    models["linear_regression"] = lr_model
 
-        rf_model = RandomForestRegressor(
-            n_estimators=240,
-            max_depth=14,
-            min_samples_leaf=2,
-            random_state=random_state,
-            n_jobs=-1,
-        )
-        rf_model.fit(x_flat, y_safe)
-        models["random_forest"] = rf_model
+    rf_model = RandomForestRegressor(
+        n_estimators=260,
+        max_depth=14,
+        min_samples_leaf=2,
+        random_state=random_state,
+        n_jobs=-1,
+    )
+    rf_model.fit(x_flat, y_safe)
+    models["random_forest"] = rf_model
 
-        gb_model = GradientBoostingRegressor(
-            random_state=random_state,
-            n_estimators=260,
-            learning_rate=0.04,
-            max_depth=3,
+    gb_model = GradientBoostingRegressor(
+        random_state=random_state,
+        n_estimators=280,
+        learning_rate=0.04,
+        max_depth=3,
+        subsample=0.9,
+    )
+    gb_model.fit(x_flat, y_safe)
+    models["gradient_boosting"] = gb_model
+
+    svr_model = Pipeline(
+        steps=[
+            ("scaler", StandardScaler()),
+            ("svr", SVR(kernel="rbf", C=15.0, epsilon=0.02, gamma="scale")),
+        ]
+    )
+    svr_model.fit(x_flat, y_safe)
+    models["svr_rbf"] = svr_model
+
+    knn_model = Pipeline(
+        steps=[
+            ("scaler", StandardScaler()),
+            ("knn", KNeighborsRegressor(n_neighbors=7, weights="distance")),
+        ]
+    )
+    knn_model.fit(x_flat, y_safe)
+    models["knn_regressor"] = knn_model
+
+    try:  # Optional dependency
+        from xgboost import XGBRegressor
+
+        xgb_model = XGBRegressor(
+            n_estimators=320,
+            learning_rate=0.05,
+            max_depth=4,
             subsample=0.9,
+            colsample_bytree=0.9,
+            objective="reg:squarederror",
+            random_state=random_state,
+            n_jobs=1,
         )
-        gb_model.fit(x_flat, y_safe)
-        models["gradient_boosting"] = gb_model
-
-        try:  # Optional dependency
-            from xgboost import XGBRegressor
-
-            xgb_model = XGBRegressor(
-                n_estimators=320,
-                learning_rate=0.05,
-                max_depth=4,
-                subsample=0.9,
-                colsample_bytree=0.9,
-                objective="reg:squarederror",
-                random_state=random_state,
-                n_jobs=1,
-            )
-            xgb_model.fit(x_flat, y_safe)
-            models["xgboost"] = xgb_model
-            notes["xgboost"] = "trained"
-        except Exception as exc:  # pragma: no cover - optional runtime dependency
-            notes["xgboost"] = f"Unavailable: {exc}"
-    else:
-        # Fallback path keeps pipeline fully executable if sklearn is not present.
-        fallback_model = LinearSequenceRegressor(l2_penalty=1e-3)
-        fallback_model.fit(x_train=x_train, y_train=y_safe)
-        models["linear_sequence_fallback"] = fallback_model
+        xgb_model.fit(x_flat, y_safe)
+        models["xgboost"] = xgb_model
+        notes["xgboost"] = "trained"
+    except Exception as exc:  # pragma: no cover - optional runtime dependency
+        notes["xgboost"] = f"Unavailable: {exc}"
 
     return SecondaryModelRegistry(models=models, notes=notes)
 
@@ -135,45 +148,74 @@ def predict_secondary_forecasters(
 ) -> Dict[str, np.ndarray]:
     """
     Generate predictions for all secondary models.
-
-    Inputs:
-    - registry: trained model registry
-    - x_input: sequence array
-
-    Output:
-    - dictionary {model_name: prediction_array}
     """
 
     predictions: Dict[str, np.ndarray] = {}
     x_flat = _safe_array(_flatten_sequences(x_input))
 
     for model_name, model in registry.models.items():
-        if isinstance(model, LinearSequenceRegressor):
-            pred = model.predict(x_input)
-        else:
-            pred = model.predict(x_flat)
+        pred = model.predict(x_flat)
         predictions[model_name] = np.asarray(pred, dtype=np.float32).reshape(-1)
 
     return predictions
+
+
+def _stabilize_weights(raw_weights: Dict[str, float]) -> Dict[str, float]:
+    names = list(raw_weights.keys())
+    if not names:
+        return {}
+
+    scores = np.array([float(raw_weights[name]) for name in names], dtype=np.float64)
+    if not np.all(np.isfinite(scores)):
+        scores = np.nan_to_num(scores, nan=0.0, posinf=0.0, neginf=0.0)
+
+    if np.all(scores <= 0):
+        uniform = 1.0 / len(names)
+        return {name: uniform for name in names}
+
+    # Dampen extreme dominance, then blend with uniform prior.
+    damped = np.log1p(np.maximum(scores, 0.0))
+    base = damped / max(float(damped.sum()), 1e-12)
+    uniform = np.full_like(base, 1.0 / len(base))
+    blended = 0.80 * base + 0.20 * uniform
+
+    # Cap single-model dominance and enforce minimum participation.
+    n_models = len(names)
+    max_weight = max(0.42, (1.0 / n_models) + 0.12)
+    max_weight = min(max_weight, 0.70)
+    min_weight = 0.03 if n_models >= 5 else 0.02
+
+    weights = blended.copy()
+    for _ in range(10):
+        weights = np.clip(weights, min_weight, max_weight)
+        total = float(weights.sum())
+        if total <= 0:
+            weights = uniform.copy()
+            break
+        weights /= total
+
+        overflow = np.maximum(weights - max_weight, 0.0).sum()
+        underflow = np.maximum(min_weight - weights, 0.0).sum()
+        if overflow < 1e-8 and underflow < 1e-8:
+            break
+
+    weights /= max(float(weights.sum()), 1e-12)
+    return {name: float(value) for name, value in zip(names, weights)}
 
 
 def coordinate_hybrid_prediction(
     y_validation: np.ndarray,
     validation_predictions: Dict[str, np.ndarray],
     test_predictions: Dict[str, np.ndarray],
-    preferred_model: str = "lstm",
+    preferred_model: str = "gru",
 ) -> CoordinationResult:
     """
-    Coordinate multiple models using inverse-validation-error weighted averaging.
+    Coordinate models with stabilized inverse-RMSE weighting.
 
-    Inputs:
-    - y_validation: validation ground truth in scaled domain
-    - validation_predictions: per-model validation predictions
-    - test_predictions: per-model test predictions
-    - preferred_model: model to prioritize slightly when validation errors are close
-
-    Output:
-    - CoordinationResult containing final hybrid predictions and weight metadata
+    Key behavior:
+    - inverse RMSE gives higher preference to accurate models
+    - preferred model gets a small boost
+    - weight stabilization prevents one model from taking nearly all weight
     """
 
     valid_models: Dict[str, Tuple[np.ndarray, np.ndarray]] = {}
@@ -182,7 +224,6 @@ def coordinate_hybrid_prediction(
             continue
         val_arr = np.asarray(val_pred, dtype=np.float64).reshape(-1)
         test_arr = np.asarray(test_predictions[name], dtype=np.float64).reshape(-1)
-        # Skip models with NaN predictions
         if np.isnan(val_arr).any() or np.isnan(test_arr).any():
             continue
         if len(val_arr) != len(y_validation) or len(test_arr) == 0:
@@ -199,26 +240,22 @@ def coordinate_hybrid_prediction(
     for name, (val_pred, _) in valid_models.items():
         rmse = float(np.sqrt(np.mean((y_val - val_pred) ** 2)))
         validation_rmse[name] = rmse
-        inv = 1.0 / max(rmse, 1e-6)
+        score = 1.0 / max(rmse, 1e-6)
         if name == preferred_model:
-            inv *= 1.15
-        raw_weights[name] = inv
+            score *= 1.08
+        raw_weights[name] = score
 
-    total_weight = float(sum(raw_weights.values()))
-    if total_weight <= 0:
-        weights = {name: 1.0 / len(raw_weights) for name in raw_weights}
-    else:
-        weights = {name: value / total_weight for name, value in raw_weights.items()}
+    weights = _stabilize_weights(raw_weights=raw_weights)
 
     final_prediction = np.zeros_like(next(iter(valid_models.values()))[1], dtype=np.float64)
     for name, (_, test_pred) in valid_models.items():
-        final_prediction += weights[name] * test_pred
+        final_prediction += float(weights[name]) * test_pred
 
     return CoordinationResult(
         final_prediction=final_prediction.astype(np.float32),
         weights=weights,
         validation_rmse=validation_rmse,
-        method="dynamic_inverse_rmse_weighted_ensemble",
+        method="balanced_inverse_rmse_weighted_ensemble",
     )
 
 
@@ -228,13 +265,6 @@ def build_model_comparison_table(
 ) -> pd.DataFrame:
     """
     Build model-comparison table for regression metrics.
-
-    Inputs:
-    - y_true: true values in original scale
-    - prediction_map: dictionary {model_name: predictions in original scale}
-
-    Output:
-    - DataFrame with MAE, RMSE, R2 sorted by RMSE asc
     """
 
     rows = []
@@ -270,15 +300,6 @@ def save_model_comparison_artifacts(
 ) -> Dict[str, Any]:
     """
     Persist model comparison table in CSV/JSON/TXT formats.
-
-    Inputs:
-    - comparison_df: model metrics table
-    - output_csv_path: CSV destination
-    - output_json_path: JSON destination
-    - output_txt_path: text summary destination
-
-    Output:
-    - summary dictionary with best model and file paths
     """
 
     csv_path = Path(output_csv_path)

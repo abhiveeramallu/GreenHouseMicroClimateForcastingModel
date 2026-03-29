@@ -4,13 +4,13 @@ const PREDICTED_COLOR = "#d98c3f";
 const MODEL_COLOR_PALETTE = {
   actual: "#2b78e4",
   hybrid_coordinated: "#d94801",
+  gru: "#4c6ef5",
+  bilstm: "#228be6",
   random_forest: "#2b8a3e",
   gradient_boosting: "#c77d00",
   linear_regression: "#6f42c1",
-  linear_baseline: "#0b7285",
-  primary_linear: "#5f3dc4",
-  naive_persistence: "#8d99ae",
-  lstm: "#4c6ef5",
+  svr_rbf: "#1f7a8c",
+  knn_regressor: "#8f5f00",
   xgboost: "#b5179e",
 };
 
@@ -230,11 +230,11 @@ function updateModelInsights(crop) {
   els.bestModelLabel.textContent = prettyModelName(bestModel);
 
   const hybridRmse = Number(crop.metrics?.rmse);
-  const naiveRmse = rmseForModel(crop, "naive_persistence");
-  if (Number.isFinite(hybridRmse) && Number.isFinite(naiveRmse)) {
-    const diff = naiveRmse - hybridRmse;
+  const bestModelRmse = rmseForModel(crop, bestModel);
+  if (Number.isFinite(hybridRmse) && Number.isFinite(bestModelRmse)) {
+    const diff = bestModelRmse - hybridRmse;
     const sign = diff >= 0 ? "+" : "";
-    els.hybridGainLabel.textContent = `${sign}${diff.toFixed(3)} RMSE`;
+    els.hybridGainLabel.textContent = `${sign}${diff.toFixed(3)} vs best RMSE`;
   } else {
     els.hybridGainLabel.textContent = "--";
   }
@@ -427,7 +427,6 @@ function ensureModelSeriesVisibility(crop) {
       state.modelSeriesVisible[key] = (
         key === "actual"
         || key === "hybrid_coordinated"
-        || key === "naive_persistence"
         || key === bestModel
       );
     }

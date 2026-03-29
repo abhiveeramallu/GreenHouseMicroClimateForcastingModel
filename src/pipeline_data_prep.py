@@ -59,7 +59,6 @@ from src.hybrid_forecasting_extension import (
     train_secondary_forecasters,
 )
 from src.ml_forecasting_module import (
-    LinearSequenceRegressor,
     predict_temperature,
     train_temperature_forecaster,
 )
@@ -153,9 +152,9 @@ def _write_hybrid_architecture_docs() -> Dict[str, str]:
 ```mermaid
 flowchart LR
     A[Data Management Module\nCSV ingestion, cleaning, scaling, sequences]
-    B[Machine Learning Forecasting Module\nLSTM + parallel ML models]
+    B[Machine Learning Forecasting Module\nGRU/BiLSTM + parallel ML models]
     C[Model Evaluation Module\nMAE, RMSE, R2 comparison table]
-    D[Model Coordination Layer\nDynamic weighted hybrid prediction]
+    D[Model Coordination Layer\nBalanced weighted hybrid prediction]
     E[Decision and Control Simulation Module\nThreshold rule engine]
     F[Visualization and Reporting Module\nDashboard payload + plots + reports]
 
@@ -171,13 +170,16 @@ Data Collection (CSV-only)
 -> Data Preprocessing
 -> Feature Engineering
 -> Parallel Model Training:
-   - LSTM Forecasting
+   - GRU Forecasting
+   - BiLSTM fallback
    - Random Forest
+   - SVR (RBF)
+   - KNN Regressor
    - Gradient Boosting
-   - Linear Regression baseline
+   - Linear Regression
    - Optional XGBoost (when installed)
 -> Model Evaluation (MAE, RMSE, R2)
--> Model Coordination Layer (dynamic inverse-RMSE weighting)
+-> Model Coordination Layer (balanced inverse-RMSE weighting)
 -> Final Optimized Temperature Prediction
 -> Decision and Control Simulation (fan/spray thresholds unchanged)
 -> Visualization and Reporting
@@ -348,66 +350,18 @@ def run_full_project_workflow(
             model_tag=f"{crop_slug}_primary",
             epochs=epochs,
             batch_size=batch_size,
-            force_backend="auto",
+            force_backend="gru",
         )
 
-        # Explicit LSTM candidate: treated as an independent model for hybrid coordination.
-        # If primary already uses LSTM, reuse it instead of training a duplicate network.
-        lstm_candidate = None
-        lstm_candidate_note = "not_attempted"
-        if primary_model.backend == "lstm":
-            lstm_candidate = primary_model
-            lstm_candidate_note = "trained_via_primary"
-        else:
-            try:
-                lstm_candidate = train_temperature_forecaster(
-                    x_train=x_fit,
-                    y_train=y_fit,
-                    x_val=x_val,
-                    y_val=y_val,
-                    model_dir=crop_models_dir,
-                    model_tag=f"{crop_slug}_lstm_explicit",
-                    epochs=epochs,
-                    batch_size=batch_size,
-                    force_backend="lstm",
-                )
-                lstm_candidate_note = "trained"
-            except Exception as exc:
-                lstm_candidate_note = f"Unavailable: {exc}"
-
-        # Baseline model from existing pipeline remains intact.
-        linear_baseline = LinearSequenceRegressor(l2_penalty=1e-3)
-        linear_baseline.fit(x_fit, y_fit)
-        linear_baseline.save(crop_models_dir / f"{crop_slug}_linear_baseline.npy")
-
-        feature_columns = [col for col in scaled_df.columns if col not in {time_column, crop_column}]
-        target_index = feature_columns.index(target_col)
-
         model_predictions_test_scaled: Dict[str, np.ndarray] = {
-            "linear_baseline": linear_baseline.predict(x_test).astype(np.float32),
-            "naive_persistence": x_test[:, -1, target_index].astype(np.float32),
+            primary_model.backend: predict_temperature(primary_model, x_test),
         }
         model_predictions_val_scaled: Dict[str, np.ndarray] = {
-            "linear_baseline": linear_baseline.predict(x_val).astype(np.float32),
-            "naive_persistence": x_val[:, -1, target_index].astype(np.float32),
+            primary_model.backend: predict_temperature(primary_model, x_val),
         }
+        preferred_model = primary_model.backend
 
-        if primary_model.backend == "lstm":
-            model_predictions_test_scaled["lstm"] = predict_temperature(primary_model, x_test)
-            model_predictions_val_scaled["lstm"] = predict_temperature(primary_model, x_val)
-            preferred_model = "lstm"
-        else:
-            model_predictions_test_scaled["primary_linear"] = predict_temperature(primary_model, x_test)
-            model_predictions_val_scaled["primary_linear"] = predict_temperature(primary_model, x_val)
-            preferred_model = "primary_linear"
-
-        # Add explicit LSTM model if available and not already present.
-        if lstm_candidate is not None and lstm_candidate.backend == "lstm" and "lstm" not in model_predictions_test_scaled:
-            model_predictions_test_scaled["lstm"] = predict_temperature(lstm_candidate, x_test)
-            model_predictions_val_scaled["lstm"] = predict_temperature(lstm_candidate, x_val)
-            preferred_model = "lstm"
-
-        # Extension: train independent ML models (RF/GB/LinearRegression/optional XGBoost).
+        # Extension: train independent ML models (RF/GB/LinearRegression/SVR/KNN/optional XGBoost).
         secondary_registry = train_secondary_forecasters(x_train=x_fit, y_train=y_fit)
         secondary_test_predictions = predict_secondary_forecasters(secondary_registry, x_input=x_test)
         secondary_val_predictions = predict_secondary_forecasters(secondary_registry, x_input=x_val)
@@ -418,7 +372,6 @@ def run_full_project_workflow(
 
         registry_notes = dict(secondary_registry.notes)
         registry_notes["primary_backend"] = primary_model.backend
-        registry_notes["lstm_candidate"] = lstm_candidate_note
         if primary_model.fallback_reason:
             registry_notes["primary_fallback_reason"] = primary_model.fallback_reason
 

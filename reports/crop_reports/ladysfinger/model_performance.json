@@ -1,8 +1,8 @@
 {
-  "mae": 3.170967102050781e-05,
-  "rmse": 3.9580356539625423e-05,
-  "mape_pct": 0.00010927784917590622,
-  "r2": 0.9999999998005437,
+  "mae": 0.1829822063446045,
+  "rmse": 0.21767832497486939,
+  "mape_pct": 0.6313460613529195,
+  "r2": 0.9939672020287856,
   "sample_count": 8,
-  "backend": "dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]"
+  "backend": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]"
 }

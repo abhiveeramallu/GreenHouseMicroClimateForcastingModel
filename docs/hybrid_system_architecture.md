@@ -5,11 +5,11 @@ flowchart LR
     A[Data Management Module
 CSV ingestion, cleaning, scaling, sequences]
     B[Machine Learning Forecasting Module
-LSTM + parallel ML models]
+GRU/BiLSTM + parallel ML models]
     C[Model Evaluation Module
 MAE, RMSE, R2 comparison table]
     D[Model Coordination Layer
-Dynamic weighted hybrid prediction]
+Balanced weighted hybrid prediction]
     E[Decision and Control Simulation Module
 Threshold rule engine]
     F[Visualization and Reporting Module

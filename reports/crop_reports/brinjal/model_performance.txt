@@ -1,7 +1,7 @@
 === Forecast Performance Report: brinjal ===
-Model backend: dynamic_inverse_rmse_weighted_ensemble[linear_regression:0.99, gradient_boosting:0.01, random_forest:0.00, linear_baseline:0.00, naive_persistence:0.00, lstm:0.00]
+Model backend: balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]
 Samples: 8
-MAE (C): 0.0000
-RMSE (C): 0.0000
-MAPE (%): 0.00
-R2: 1.0000
+MAE (C): 0.1685
+RMSE (C): 0.2128
+MAPE (%): 0.60
+R2: 0.9942
