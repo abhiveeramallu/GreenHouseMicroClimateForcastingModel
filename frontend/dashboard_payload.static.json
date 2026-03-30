@@ -1,53 +1,29 @@
 {
   "project": "Microclimate Forecasting System",
-  "generated_at": "2026-03-29T23:42:39",
   "crops_processed": 4,
-  "thresholds": {
-    "low_threshold_c": 22.0,
-    "high_threshold_c": 29.0,
-    "spray_threshold_c": 31.0
-  },
-  "plant_growth_intelligence": {
-    "figure_api_urls": {}
-  },
-  "crops": [
+  "payloads": [
     {
-      "crop_type": "BRINJAL",
-      "raw_crop_type": "brinjal",
-      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
-      "timestamps": [
-        "2025-01-09T14:00:00",
-        "2025-01-09T15:00:00",
-        "2025-01-09T16:00:00",
-        "2025-01-09T17:00:00",
-        "2025-01-09T18:00:00",
-        "2025-01-09T19:00:00",
-        "2025-01-09T20:00:00",
-        "2025-01-09T21:00:00"
-      ],
-      "actual_temperature_c": [
-        30.100000381469727,
-        30.799999237060547,
-        32.0,
-        32.79999923706055,
-        31.299999237060547,
-        29.200000762939453,
-        26.5,
-        23.899999618530273
-      ],
-      "predicted_temperature_c": [
-        30.040599822998047,
-        30.730899810791016,
-        31.795299530029297,
-        32.46979904174805,
-        31.223400115966797,
-        29.18829917907715,
-        26.81920051574707,
-        24.213300704956055
-      ],
-      "absolute_error_c": [
-        0.05939999967813492,
-        0.06909999996423721,
+      "crop_type": "brinjal",
+      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
+      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/ui_payload.json"
+    },
+    {
+      "crop_type": "green_chilli",
+      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
+      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/green_chilli/ui_payload.json"
+    },
+    {
+      "crop_type": "ladysfinger",
+      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
+      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/ladysfinger/ui_payload.json"
+    },
+    {
+      "crop_type": "tomato",
+      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
+      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tomato/ui_payload.json"
+    }
+  ]
+}
         0.20469999313354492,
         0.3301999866962433,
         0.07660000026226044,
