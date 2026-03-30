@@ -1,5 +1,4 @@
 const FIXED_WINDOW_SIZE = 25;
-const STATIC_PAYLOAD_VERSION = "20260330c";
 const ACTUAL_COLOR = "#2b78e4";
 const PREDICTED_COLOR = "#d98c3f";
 const MODEL_COLOR_PALETTE = {
@@ -1005,9 +1004,7 @@ function onCropChange() {
 
 function getDashboardEndpoints(refresh = false) {
   const apiEndpoint = refresh ? "/api/dashboard?refresh=1" : "/api/dashboard";
-  const staticEndpoint = refresh
-    ? `/dashboard_payload.static.json?v=${STATIC_PAYLOAD_VERSION}&r=${Date.now()}`
-    : `/dashboard_payload.static.json?v=${STATIC_PAYLOAD_VERSION}`;
+  const staticEndpoint = "/dashboard_payload.static.json";
   const hostname = String(window.location.hostname || "").toLowerCase();
   const isLocalhost = hostname === "127.0.0.1" || hostname === "localhost";
 
