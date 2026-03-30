@@ -110,6 +110,37 @@ function prettyModelName(modelKey) {
     .join(" ");
 }
 
+function formatCoordinationText(value) {
+  const raw = String(value || "").trim();
+  if (!raw || raw === "--") return "--";
+
+  const openIdx = raw.indexOf("[");
+  const closeIdx = raw.lastIndexOf("]");
+  if (openIdx === -1 || closeIdx === -1 || closeIdx <= openIdx) {
+    return raw.replace(/_/g, " ");
+  }
+
+  const method = raw.slice(0, openIdx).replace(/_/g, " ").trim();
+  const weightsRaw = raw.slice(openIdx + 1, closeIdx).trim();
+  if (!weightsRaw) return method || "--";
+
+  const formattedWeights = weightsRaw
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => {
+      const [model, weight] = item.split(":");
+      if (!model) return item;
+      const prettyModel = prettyModelName(model.trim());
+      const parsedWeight = Number(weight);
+      const prettyWeight = Number.isFinite(parsedWeight) ? parsedWeight.toFixed(2) : String(weight || "").trim();
+      return `${prettyModel}: ${prettyWeight}`;
+    })
+    .join("\n");
+
+  return `${method}\n${formattedWeights}`;
+}
+
 function rmseForModel(crop, modelKey) {
   const rows = Array.isArray(crop.model_comparison) ? crop.model_comparison : [];
   const hit = rows.find((row) => String(row.model || "").toLowerCase() === String(modelKey || "").toLowerCase());
@@ -220,7 +251,7 @@ function updateMetrics(crop) {
   els.mapeMetric.textContent =
     metrics.mape_pct !== null && metrics.mape_pct !== undefined ? `${metrics.mape_pct.toFixed(2)}%` : "--";
   els.r2Metric.textContent = metrics.r2 !== null && metrics.r2 !== undefined ? metrics.r2.toFixed(3) : "--";
-  els.modelCoordination.textContent = crop.model_coordination || metrics.model_coordination || "--";
+  els.modelCoordination.textContent = formatCoordinationText(crop.model_coordination || metrics.model_coordination);
 }
 
 function updateModelInsights(crop) {
