@@ -203,81 +203,6 @@ def _stabilize_weights(raw_weights: Dict[str, float]) -> Dict[str, float]:
     return {name: float(value) for name, value in zip(names, weights)}
 
 
-def _project_to_simplex(weights: np.ndarray) -> np.ndarray:
-    """
-    Project weight vector onto probability simplex:
-    w_i >= 0 and sum(w_i) = 1.
-    """
-
-    if weights.ndim != 1:
-        weights = weights.reshape(-1)
-    n = weights.shape[0]
-    if n == 0:
-        return weights
-
-    u = np.sort(weights)[::-1]
-    cssv = np.cumsum(u)
-    rho = np.nonzero(u + (1.0 - cssv) / (np.arange(n) + 1) > 0)[0]
-    if len(rho) == 0:
-        return np.full_like(weights, 1.0 / n, dtype=np.float64)
-    rho_idx = rho[-1]
-    theta = (cssv[rho_idx] - 1.0) / float(rho_idx + 1)
-    projected = np.maximum(weights - theta, 0.0)
-    total = float(projected.sum())
-    if total <= 0:
-        return np.full_like(weights, 1.0 / n, dtype=np.float64)
-    return projected / total
-
-
-def _optimize_class_adaptive_weights(
-    y_validation: np.ndarray,
-    validation_prediction_matrix: np.ndarray,
-    base_weights: np.ndarray,
-    steps: int = 450,
-    regularization: float = 0.04,
-) -> np.ndarray:
-    """
-    Class-adaptive simplex-constrained optimization on validation split.
-    Objective:
-        min_w  MSE(y, P@w) + regularization * ||w - w_base||^2
-    subject to:
-        w >= 0, sum(w)=1
-    """
-
-    y_val = np.asarray(y_validation, dtype=np.float64).reshape(-1)
-    pred_mat = np.asarray(validation_prediction_matrix, dtype=np.float64)
-    w0 = _project_to_simplex(np.asarray(base_weights, dtype=np.float64).reshape(-1))
-    w = w0.copy()
-
-    if pred_mat.ndim != 2 or pred_mat.shape[0] != y_val.shape[0] or pred_mat.shape[1] != w.shape[0]:
-        return w0
-    if y_val.shape[0] < 2:
-        return w0
-
-    # Conservative step from Lipschitz estimate for stable projected GD.
-    gram = (pred_mat.T @ pred_mat) / max(float(y_val.shape[0]), 1.0)
-    eigvals = np.linalg.eigvalsh(gram)
-    lipschitz = float(np.max(eigvals)) + regularization
-    learning_rate = 1.0 / max(2.0 * lipschitz, 1e-6)
-
-    best_w = w.copy()
-    best_loss = np.inf
-
-    for _ in range(max(int(steps), 1)):
-        residual = pred_mat @ w - y_val
-        mse = float(np.mean(residual**2))
-        reg = float(regularization * np.sum((w - w0) ** 2))
-        loss = mse + reg
-        if loss < best_loss:
-            best_loss = loss
-            best_w = w.copy()
-
-        gradient = (2.0 / y_val.shape[0]) * (pred_mat.T @ residual) + 2.0 * regularization * (w - w0)
-        w = _project_to_simplex(w - learning_rate * gradient)
-
-    return best_w
-
-
 def coordinate_hybrid_prediction(
     y_validation: np.ndarray,
     validation_predictions: Dict[str, np.ndarray],
@@ -320,30 +245,7 @@ def coordinate_hybrid_prediction(
             score *= 1.08
         raw_weights[name] = score
 
-    baseline_weights = _stabilize_weights(raw_weights=raw_weights)
-    model_names = list(valid_models.keys())
-    baseline_vector = np.array([baseline_weights[name] for name in model_names], dtype=np.float64)
-
-    validation_matrix = np.column_stack([valid_models[name][0] for name in model_names])
-    optimized_vector = _optimize_class_adaptive_weights(
-        y_validation=y_val,
-        validation_prediction_matrix=validation_matrix,
-        base_weights=baseline_vector,
-    )
-
-    baseline_val_pred = validation_matrix @ baseline_vector
-    optimized_val_pred = validation_matrix @ optimized_vector
-    baseline_rmse = float(np.sqrt(np.mean((y_val - baseline_val_pred) ** 2)))
-    optimized_rmse = float(np.sqrt(np.mean((y_val - optimized_val_pred) ** 2)))
-
-    if np.isfinite(optimized_rmse) and optimized_rmse <= baseline_rmse * 0.999:
-        selected_vector = optimized_vector
-        method_name = "class_adaptive_constrained_weighted_ensemble"
-    else:
-        selected_vector = baseline_vector
-        method_name = "balanced_inverse_rmse_weighted_ensemble"
-
-    weights = {name: float(weight) for name, weight in zip(model_names, selected_vector)}
+    weights = _stabilize_weights(raw_weights=raw_weights)
 
     final_prediction = np.zeros_like(next(iter(valid_models.values()))[1], dtype=np.float64)
     for name, (_, test_pred) in valid_models.items():
@@ -353,7 +255,7 @@ def coordinate_hybrid_prediction(
         final_prediction=final_prediction.astype(np.float32),
         weights=weights,
         validation_rmse=validation_rmse,
-        method=method_name,
+        method="balanced_inverse_rmse_weighted_ensemble",
     )
 
 

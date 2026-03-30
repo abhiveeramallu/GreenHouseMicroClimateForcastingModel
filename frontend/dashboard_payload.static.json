@@ -1,35 +1,59 @@
 {
   "project": "Microclimate Forecasting System",
+  "generated_at": "2026-03-30T11:54:54",
   "crops_processed": 4,
-  "payloads": [
+  "thresholds": {
+    "low_threshold_c": 22.0,
+    "high_threshold_c": 29.0,
+    "spray_threshold_c": 31.0
+  },
+  "plant_growth_intelligence": {
+    "figure_api_urls": {}
+  },
+  "crops": [
     {
-      "crop_type": "brinjal",
-      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
-      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/brinjal/ui_payload.json"
-    },
-    {
-      "crop_type": "green_chilli",
-      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
-      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/green_chilli/ui_payload.json"
-    },
-    {
-      "crop_type": "ladysfinger",
-      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
-      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/ladysfinger/ui_payload.json"
-    },
-    {
-      "crop_type": "tomato",
-      "model_coordination": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]",
-      "payload_file": "/Users/vabhiram/Desktop/softwareeng_project/reports/crop_reports/tomato/ui_payload.json"
-    }
-  ]
-}
-        0.20469999313354492,
-        0.3301999866962433,
-        0.07660000026226044,
-        0.011699999682605267,
-        0.3192000091075897,
-        0.3133000135421753
+      "crop_type": "BRINJAL",
+      "raw_crop_type": "brinjal",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
+      "timestamps": [
+        "2025-01-09T14:00:00",
+        "2025-01-09T15:00:00",
+        "2025-01-09T16:00:00",
+        "2025-01-09T17:00:00",
+        "2025-01-09T18:00:00",
+        "2025-01-09T19:00:00",
+        "2025-01-09T20:00:00",
+        "2025-01-09T21:00:00"
+      ],
+      "actual_temperature_c": [
+        30.100000381469727,
+        30.799999237060547,
+        32.0,
+        32.79999923706055,
+        31.299999237060547,
+        29.200000762939453,
+        26.5,
+        23.899999618530273
+      ],
+      "predicted_temperature_c": [
+        30.04949951171875,
+        30.73419952392578,
+        31.796100616455078,
+        32.472999572753906,
+        31.228500366210938,
+        29.183500289916992,
+        26.80120086669922,
+        24.183399200439453
+      ],
+      "absolute_error_c": [
+        0.05050000175833702,
+        0.0658000037074089,
+        0.20389999449253082,
+        0.3269999921321869,
+        0.07150000333786011,
+        0.016499999910593033,
+        0.3012000024318695,
+        0.2833999991416931
       ],
       "actions": [
         "fan_on",
@@ -62,15 +86,15 @@
         0
       ],
       "model_weights": {
-        "gru": 0.08459140883970698,
-        "linear_regression": 0.3636377166635653,
-        "random_forest": 0.11628242160483764,
-        "gradient_boosting": 0.24232959684570693,
-        "svr_rbf": 0.08942674569763358,
-        "knn_regressor": 0.10373211034854947
+        "gru": 0.08432159416804666,
+        "linear_regression": 0.36375674428285687,
+        "random_forest": 0.11631231292023533,
+        "gradient_boosting": 0.24240491018982882,
+        "svr_rbf": 0.08944695937225802,
+        "knn_regressor": 0.1037574790667744
       },
       "validation_rmse": {
-        "gru": 0.14336749173981406,
+        "gru": 0.14534001965916377,
         "linear_regression": 0.0,
         "random_forest": 0.03213367581107513,
         "gradient_boosting": 0.00015982282156239846,
@@ -95,9 +119,9 @@
         {
           "rank": 3,
           "model": "hybrid_coordinated",
-          "mae": 0.17303919792175293,
-          "rmse": 0.21369277988781338,
-          "r2": 0.9941860926658354
+          "mae": 0.1649794578552246,
+          "rmse": 0.2036613060199662,
+          "r2": 0.9947191302398379
         },
         {
           "rank": 4,
@@ -123,32 +147,32 @@
         {
           "rank": 7,
           "model": "gru",
-          "mae": 1.6869468688964844,
-          "rmse": 1.897694253636294,
-          "r2": 0.5414983604947632
+          "mae": 1.5824861526489258,
+          "rmse": 1.7885654281701353,
+          "r2": 0.5927153226088294
         }
       ],
       "best_model": "linear_regression",
       "model_prediction_series": {
         "hybrid_coordinated": [
-          30.040599822998047,
-          30.730899810791016,
-          31.795299530029297,
-          32.46979904174805,
-          31.223400115966797,
-          29.18829917907715,
-          26.81920051574707,
-          24.213300704956055
+          30.04949951171875,
+          30.73419952392578,
+          31.796100616455078,
+          32.472999572753906,
+          31.228500366210938,
+          29.183500289916992,
+          26.80120086669922,
+          24.183399200439453
         ],
         "gru": [
-          29.15839958190918,
-          29.535900115966797,
-          29.66790008544922,
-          30.01129913330078,
-          30.288799285888672,
-          29.582199096679688,
-          28.369300842285156,
-          26.806400299072266
+          29.26129913330078,
+          29.571300506591797,
+          29.66939926147461,
+          30.040300369262695,
+          30.346099853515625,
+          29.52680015563965,
+          28.161500930786133,
+          26.459999084472656
         ],
         "linear_regression": [
           30.100000381469727,
@@ -202,10 +226,10 @@
         ]
       },
       "metrics": {
-        "mae": 0.1730391979217529,
-        "rmse": 0.2136927798878133,
-        "mape_pct": 0.6085911464941384,
-        "r2": 0.9941860926658354,
+        "mae": 0.1649794578552246,
+        "rmse": 0.2036613060199662,
+        "mape_pct": 0.577872126368526,
+        "r2": 0.994719130239838,
         "samples": 8,
         "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
         "best_model": "linear_regression",
@@ -215,7 +239,7 @@
     {
       "crop_type": "GREEN_CHILLI",
       "raw_crop_type": "green_chilli",
-      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
       "timestamps": [
         "2025-01-06T14:00:00",
         "2025-01-06T15:00:00",
@@ -237,24 +261,24 @@
         23.5
       ],
       "predicted_temperature_c": [
-        29.64590072631836,
-        30.3351993560791,
-        31.403499603271484,
-        32.0807991027832,
-        30.83289909362793,
-        28.79949951171875,
-        26.433500289916992,
-        23.832199096679688
+        29.564199447631836,
+        30.255199432373047,
+        31.335599899291992,
+        32.012699127197266,
+        30.75589942932129,
+        28.74570083618164,
+        26.417400360107422,
+        23.861600875854492
       ],
       "absolute_error_c": [
-        0.054099999368190765,
-        0.06480000168085098,
-        0.1965000033378601,
-        0.3192000091075897,
-        0.06710000336170197,
-        0.0005000000237487257,
-        0.3334999978542328,
-        0.33219999074935913
+        0.13580000400543213,
+        0.14480000734329224,
+        0.26440000534057617,
+        0.3873000144958496,
+        0.14409999549388885,
+        0.05429999902844429,
+        0.3174000084400177,
+        0.36160001158714294
       ],
       "actions": [
         "fan_on",
@@ -287,15 +311,15 @@
         0
       ],
       "model_weights": {
-        "gru": 0.08301871844697459,
-        "linear_regression": 0.3643368349353971,
-        "random_forest": 0.11645799064409079,
-        "gradient_boosting": 0.24277195581500946,
-        "svr_rbf": 0.08953156275749108,
-        "knn_regressor": 0.10388293740103699
+        "gru": 0.07832244266014053,
+        "linear_regression": 0.3664086108265897,
+        "random_forest": 0.11697827414606751,
+        "gradient_boosting": 0.24408284795555177,
+        "svr_rbf": 0.08988331171568989,
+        "knn_regressor": 0.10432451269596052
       },
       "validation_rmse": {
-        "gru": 0.1552873319153383,
+        "gru": 0.19769503962529167,
         "linear_regression": 0.0,
         "random_forest": 0.03213367581107513,
         "gradient_boosting": 0.00015982282156239846,
@@ -320,9 +344,9 @@
         {
           "rank": 3,
           "model": "hybrid_coordinated",
-          "mae": 0.17098331451416016,
-          "rmse": 0.21612295789903452,
-          "r2": 0.9940531071814999
+          "mae": 0.2262096405029297,
+          "rmse": 0.25360264849733616,
+          "r2": 0.9918116598496007
         },
         {
           "rank": 4,
@@ -348,32 +372,32 @@
         {
           "rank": 7,
           "model": "gru",
-          "mae": 1.7267532348632812,
-          "rmse": 1.9493980305355763,
-          "r2": 0.5161738342707978
+          "mae": 2.3939871788024902,
+          "rmse": 2.6441078327400094,
+          "r2": 0.10988395183021704
         }
       ],
       "best_model": "linear_regression",
       "model_prediction_series": {
         "hybrid_coordinated": [
-          29.64590072631836,
-          30.3351993560791,
-          31.403499603271484,
-          32.0807991027832,
-          30.83289909362793,
-          28.79949951171875,
-          26.433500289916992,
-          23.832199096679688
+          29.564199447631836,
+          30.255199432373047,
+          31.335599899291992,
+          32.012699127197266,
+          30.75589942932129,
+          28.74570083618164,
+          26.417400360107422,
+          23.861600875854492
         ],
         "gru": [
-          28.806499481201172,
-          29.165700912475586,
-          29.322900772094727,
-          29.691099166870117,
-          29.98270034790039,
-          29.32550048828125,
-          28.172700881958008,
-          26.68470001220703
+          27.708999633789062,
+          28.068199157714844,
+          28.320899963378906,
+          28.66390037536621,
+          28.94339942932129,
+          28.67289924621582,
+          28.083099365234375,
+          27.24720001220703
         ],
         "linear_regression": [
           29.700000762939453,
@@ -427,12 +451,12 @@
         ]
       },
       "metrics": {
-        "mae": 0.1709833145141601,
-        "rmse": 0.2161229578990345,
-        "mape_pct": 0.6140586031947408,
-        "r2": 0.9940531071815,
+        "mae": 0.2262096405029297,
+        "rmse": 0.2536026484973361,
+        "mape_pct": 0.7969015889272867,
+        "r2": 0.9918116598496008,
         "samples": 8,
-        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
+        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
         "best_model": "linear_regression",
         "best_model_rmse": 0.0
       }
@@ -440,7 +464,7 @@
     {
       "crop_type": "LADYSFINGER",
       "raw_crop_type": "ladysfinger",
-      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, gru:0.10, svr_rbf:0.09]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
       "timestamps": [
         "2025-01-12T14:00:00",
         "2025-01-12T15:00:00",
@@ -462,24 +486,24 @@
         24.299999237060547
       ],
       "predicted_temperature_c": [
-        30.673200607299805,
-        31.323400497436523,
-        32.32440185546875,
-        32.97019958496094,
-        31.718799591064453,
-        29.58880043029785,
-        27.098600387573242,
-        24.38170051574707
+        30.351200103759766,
+        31.048200607299805,
+        32.132999420166016,
+        32.8109016418457,
+        31.55229949951172,
+        29.541799545288086,
+        27.21179962158203,
+        24.653099060058594
       ],
       "absolute_error_c": [
-        0.17319999635219574,
-        0.1234000027179718,
-        0.07559999823570251,
-        0.2298000007867813,
-        0.018799999728798866,
-        0.01119999960064888,
-        0.19859999418258667,
-        0.08169999718666077
+        0.14880000054836273,
+        0.1518000066280365,
+        0.2669999897480011,
+        0.38909998536109924,
+        0.1476999968290329,
+        0.05820000171661377,
+        0.3118000030517578,
+        0.3531000018119812
       ],
       "actions": [
         "fan_on",
@@ -512,15 +536,15 @@
         0
       ],
       "model_weights": {
-        "gru": 0.09507791071538935,
-        "linear_regression": 0.3590116400114784,
-        "random_forest": 0.11512067849778035,
-        "gradient_boosting": 0.23940250055573314,
-        "svr_rbf": 0.08864112964658973,
-        "knn_regressor": 0.10274614057302892
+        "gru": 0.07695720355824862,
+        "linear_regression": 0.36700551454587815,
+        "random_forest": 0.11712817412257295,
+        "gradient_boosting": 0.24446053185350722,
+        "svr_rbf": 0.08999867657383792,
+        "knn_regressor": 0.10444989934595503
       },
       "validation_rmse": {
-        "gru": 0.08486945474499578,
+        "gru": 0.21228890941458758,
         "linear_regression": 0.0,
         "random_forest": 0.03213367581107513,
         "gradient_boosting": 0.00015982282156239846,
@@ -545,9 +569,9 @@
         {
           "rank": 3,
           "model": "hybrid_coordinated",
-          "mae": 0.1140279769897461,
-          "rmse": 0.13707120086894592,
-          "r2": 0.997607891671477
+          "mae": 0.228440523147583,
+          "rmse": 0.25371466893844485,
+          "r2": 0.9918044224761722
         },
         {
           "rank": 4,
@@ -573,32 +597,32 @@
         {
           "rank": 7,
           "model": "gru",
-          "mae": 0.710134744644165,
-          "rmse": 0.8878971303533973,
-          "r2": 0.899627737749032
+          "mae": 2.465559482574463,
+          "rmse": 2.705999575728321,
+          "r2": 0.06772539075449269
         }
       ],
       "best_model": "linear_regression",
       "model_prediction_series": {
         "hybrid_coordinated": [
-          30.673200607299805,
-          31.323400497436523,
-          32.32440185546875,
-          32.97019958496094,
-          31.718799591064453,
-          29.58880043029785,
-          27.098600387573242,
-          24.38170051574707
+          30.351200103759766,
+          31.048200607299805,
+          32.132999420166016,
+          32.8109016418457,
+          31.55229949951172,
+          29.541799545288086,
+          27.21179962158203,
+          24.653099060058594
         ],
         "gru": [
-          32.11050033569336,
-          32.10409927368164,
-          31.681499481201172,
-          31.764999389648438,
-          31.805299758911133,
-          29.94099998474121,
-          27.310199737548828,
-          24.45639991760254
+          28.302200317382812,
+          28.73390007019043,
+          29.027099609375,
+          29.378000259399414,
+          29.663999557495117,
+          29.419099807739258,
+          28.843799591064453,
+          28.0049991607666
         ],
         "linear_regression": [
           30.5,
@@ -652,12 +676,12 @@
         ]
       },
       "metrics": {
-        "mae": 0.1140279769897461,
-        "rmse": 0.1370712008689459,
-        "mape_pct": 0.3825370471087272,
-        "r2": 0.997607891671477,
+        "mae": 0.228440523147583,
+        "rmse": 0.2537146689384448,
+        "mape_pct": 0.7806614042965829,
+        "r2": 0.9918044224761722,
         "samples": 8,
-        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, gru:0.10, svr_rbf:0.09]",
+        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
         "best_model": "linear_regression",
         "best_model_rmse": 0.0
       }
@@ -665,7 +689,7 @@
     {
       "crop_type": "TOMATO",
       "raw_crop_type": "tomato",
-      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
+      "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
       "timestamps": [
         "2025-01-03T14:00:00",
         "2025-01-03T15:00:00",
@@ -687,29 +711,29 @@
         23.100000381469727
       ],
       "predicted_temperature_c": [
-        29.250999450683594,
-        29.946399688720703,
-        31.01740074157715,
-        31.698400497436523,
-        30.453899383544922,
-        28.421300888061523,
-        26.049999237060547,
-        23.44179916381836
+        29.171199798583984,
+        29.86720085144043,
+        30.949899673461914,
+        31.625499725341797,
+        30.36639976501465,
+        28.36039924621582,
+        26.03809928894043,
+        23.487699508666992
       ],
       "absolute_error_c": [
-        0.04899999871850014,
-        0.053599998354911804,
-        0.1826000064611435,
-        0.30160000920295715,
-        0.04610000178217888,
-        0.021299999207258224,
-        0.3499000072479248,
-        0.3418000042438507
+        0.12880000472068787,
+        0.13279999792575836,
+        0.2500999867916107,
+        0.37450000643730164,
+        0.13359999656677246,
+        0.03959999978542328,
+        0.33809998631477356,
+        0.38769999146461487
       ],
       "actions": [
         "fan_on",
         "fan_on",
-        "fan_and_spray_on",
+        "fan_on",
         "fan_and_spray_on",
         "fan_on",
         "idle",
@@ -729,7 +753,7 @@
       "spray_on": [
         0,
         0,
-        1,
+        0,
         1,
         0,
         0,
@@ -737,15 +761,15 @@
         0
       ],
       "model_weights": {
-        "gru": 0.08413869959979138,
-        "linear_regression": 0.3638427519521317,
-        "random_forest": 0.11633391196072874,
-        "gradient_boosting": 0.24245933054395977,
-        "svr_rbf": 0.08944767666953814,
-        "knn_regressor": 0.10377762927385027
+        "gru": 0.07790270615788167,
+        "linear_regression": 0.36659377882044375,
+        "random_forest": 0.11702477524336571,
+        "gradient_boosting": 0.24420001085374707,
+        "svr_rbf": 0.08991474979217626,
+        "knn_regressor": 0.10436397913238549
       },
       "validation_rmse": {
-        "gru": 0.14669923883722447,
+        "gru": 0.20206208332401307,
         "linear_regression": 0.0,
         "random_forest": 0.03213367581107513,
         "gradient_boosting": 0.00015982282156239846,
@@ -770,9 +794,9 @@
         {
           "rank": 3,
           "model": "hybrid_coordinated",
-          "mae": 0.1682443618774414,
-          "rmse": 0.21547027324704038,
-          "r2": 0.9940889704189565
+          "mae": 0.22313880920410156,
+          "rmse": 0.25519814124794526,
+          "r2": 0.99170830303548
         },
         {
           "rank": 4,
@@ -798,32 +822,32 @@
         {
           "rank": 7,
           "model": "gru",
-          "mae": 1.6730310916900635,
-          "rmse": 1.9016572231150017,
-          "r2": 0.5395813759683297
+          "mae": 2.3823885917663574,
+          "rmse": 2.6534578549898633,
+          "r2": 0.10357740212276323
         }
       ],
       "best_model": "linear_regression",
       "model_prediction_series": {
         "hybrid_coordinated": [
-          29.250999450683594,
-          29.946399688720703,
-          31.01740074157715,
-          31.698400497436523,
-          30.453899383544922,
-          28.421300888061523,
-          26.049999237060547,
-          23.44179916381836
+          29.171199798583984,
+          29.86720085144043,
+          30.949899673461914,
+          31.625499725341797,
+          30.36639976501465,
+          28.36039924621582,
+          26.03809928894043,
+          23.487699508666992
         ],
         "gru": [
-          28.47909927368164,
-          28.915199279785156,
-          29.119300842285156,
-          29.534700393676758,
-          29.84440040588379,
-          29.17690086364746,
-          27.942899703979492,
-          26.357099533081055
+          27.388700485229492,
+          27.809900283813477,
+          28.086700439453125,
+          28.409000396728516,
+          28.66790008544922,
+          28.460399627685547,
+          27.958799362182617,
+          27.20199966430664
         ],
         "linear_regression": [
           29.299999237060547,
@@ -877,12 +901,12 @@
         ]
       },
       "metrics": {
-        "mae": 0.1682443618774414,
-        "rmse": 0.2154702732470403,
-        "mape_pct": 0.6176399526897451,
-        "r2": 0.9940889704189564,
+        "mae": 0.2231388092041015,
+        "rmse": 0.2551981412479452,
+        "mape_pct": 0.8031529015442119,
+        "r2": 0.99170830303548,
         "samples": 8,
-        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
+        "model_coordination": "balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]",
         "best_model": "linear_regression",
         "best_model_rmse": 0.0
       }
