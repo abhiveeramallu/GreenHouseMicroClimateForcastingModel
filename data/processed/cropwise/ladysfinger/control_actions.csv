@@ -1,9 +1,9 @@
 timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
-2025-01-12T14:00:00,ladysfinger,30.706844329833984,fan_on,1,0,high_temperature
-2025-01-12T15:00:00,ladysfinger,31.331398010253906,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-12T16:00:00,ladysfinger,32.330535888671875,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-12T17:00:00,ladysfinger,32.99150848388672,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-12T18:00:00,ladysfinger,31.73129653930664,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-12T19:00:00,ladysfinger,29.582096099853516,fan_on,1,0,high_temperature
-2025-01-12T20:00:00,ladysfinger,27.074098587036133,idle,0,0,optimal_range
-2025-01-12T21:00:00,ladysfinger,24.376224517822266,idle,0,0,optimal_range
+2025-01-12T14:00:00,ladysfinger,30.480865478515625,fan_on,1,0,high_temperature
+2025-01-12T15:00:00,ladysfinger,31.188962936401367,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T16:00:00,ladysfinger,32.318199157714844,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T17:00:00,ladysfinger,33.01801300048828,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T18:00:00,ladysfinger,31.66689682006836,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-12T19:00:00,ladysfinger,29.550830841064453,fan_on,1,0,high_temperature
+2025-01-12T20:00:00,ladysfinger,27.10377311706543,idle,0,0,optimal_range
+2025-01-12T21:00:00,ladysfinger,24.441421508789062,idle,0,0,optimal_range

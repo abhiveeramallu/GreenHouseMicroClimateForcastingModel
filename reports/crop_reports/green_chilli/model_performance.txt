@@ -1,7 +1,7 @@
 === Forecast Performance Report: green_chilli ===
-Model backend: class_adaptive_constrained_weighted_ensemble[linear_regression:0.39, gradient_boosting:0.27, random_forest:0.13, knn_regressor:0.11, svr_rbf:0.07, gru:0.04]
+Model backend: class_adaptive_constrained_weighted_ensemble[linear_regression:0.39, gradient_boosting:0.27, random_forest:0.13, knn_regressor:0.11, svr_rbf:0.07, gru:0.03]
 Samples: 8
-MAE (C): 0.0949
-RMSE (C): 0.1361
+MAE (C): 0.0970
+RMSE (C): 0.1225
 MAPE (%): 0.35
-R2: 0.9976
+R2: 0.9981

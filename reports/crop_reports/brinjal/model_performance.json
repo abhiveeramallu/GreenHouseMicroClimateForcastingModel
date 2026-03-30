@@ -1,8 +1,8 @@
 {
-  "mae": 0.09678769111633301,
-  "rmse": 0.124160583383254,
-  "mape_pct": 0.34247097957358347,
-  "r2": 0.9980372910768858,
+  "mae": 0.1020350456237793,
+  "rmse": 0.12229212396468825,
+  "mape_pct": 0.34463373949476,
+  "r2": 0.9980959191567838,
   "sample_count": 8,
-  "backend": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.39, gradient_boosting:0.27, random_forest:0.13, knn_regressor:0.11, svr_rbf:0.07, gru:0.03]"
+  "backend": "class_adaptive_constrained_weighted_ensemble[linear_regression:0.38, gradient_boosting:0.26, random_forest:0.12, knn_regressor:0.10, gru:0.08, svr_rbf:0.07]"
 }
