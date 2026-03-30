@@ -1,7 +1,7 @@
 === Forecast Performance Report: ladysfinger ===
-Model backend: balanced_inverse_rmse_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, svr_rbf:0.09, gru:0.08]
+Model backend: class_adaptive_constrained_weighted_ensemble[linear_regression:0.37, gradient_boosting:0.25, random_forest:0.12, knn_regressor:0.10, gru:0.09, svr_rbf:0.07]
 Samples: 8
-MAE (C): 0.1830
-RMSE (C): 0.2177
-MAPE (%): 0.63
-R2: 0.9940
+MAE (C): 0.1145
+RMSE (C): 0.1350
+MAPE (%): 0.38
+R2: 0.9977

@@ -1,9 +1,9 @@
 timestamp,crop_type,predicted_temperature_c,action,fan_on,spray_on,status_note
-2025-01-09T14:00:00,brinjal,30.041370391845703,fan_on,1,0,high_temperature
-2025-01-09T15:00:00,brinjal,30.73546028137207,fan_on,1,0,high_temperature
-2025-01-09T16:00:00,brinjal,31.809322357177734,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-09T17:00:00,brinjal,32.49874496459961,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-09T18:00:00,brinjal,31.260948181152344,fan_and_spray_on,1,1,critical_high_temperature
-2025-01-09T19:00:00,brinjal,29.221839904785156,fan_on,1,0,high_temperature
-2025-01-09T20:00:00,brinjal,26.84380340576172,idle,0,0,optimal_range
-2025-01-09T21:00:00,brinjal,24.227821350097656,idle,0,0,optimal_range
+2025-01-09T14:00:00,brinjal,30.0753116607666,fan_on,1,0,high_temperature
+2025-01-09T15:00:00,brinjal,30.783424377441406,fan_on,1,0,high_temperature
+2025-01-09T16:00:00,brinjal,31.90784454345703,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-09T17:00:00,brinjal,32.60829162597656,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-09T18:00:00,brinjal,31.27015495300293,fan_and_spray_on,1,1,critical_high_temperature
+2025-01-09T19:00:00,brinjal,29.163406372070312,fan_on,1,0,high_temperature
+2025-01-09T20:00:00,brinjal,26.720726013183594,idle,0,0,optimal_range
+2025-01-09T21:00:00,brinjal,24.062013626098633,idle,0,0,optimal_range

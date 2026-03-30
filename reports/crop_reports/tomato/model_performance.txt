@@ -1,7 +1,7 @@
 === Forecast Performance Report: tomato ===
-Model backend: balanced_inverse_rmse_weighted_ensemble[linear_regression:0.36, gradient_boosting:0.24, random_forest:0.12, knn_regressor:0.10, gru:0.09, svr_rbf:0.09]
+Model backend: class_adaptive_constrained_weighted_ensemble[linear_regression:0.39, gradient_boosting:0.27, random_forest:0.13, knn_regressor:0.11, svr_rbf:0.07, gru:0.04]
 Samples: 8
-MAE (C): 0.1132
-RMSE (C): 0.1393
-MAPE (%): 0.39
-R2: 0.9975
+MAE (C): 0.0998
+RMSE (C): 0.1335
+MAPE (%): 0.36
+R2: 0.9977

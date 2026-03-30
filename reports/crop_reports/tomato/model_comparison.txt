@@ -4,8 +4,8 @@ Best RMSE: 0.0000
 
 #1 linear_regression: MAE=0.0000, RMSE=0.0000, R2=1.0000
 #2 gradient_boosting: MAE=0.0005, RMSE=0.0008, R2=1.0000
-#3 hybrid_coordinated: MAE=0.1132, RMSE=0.1393, R2=0.9975
+#3 hybrid_coordinated: MAE=0.0998, RMSE=0.1335, R2=0.9977
 #4 svr_rbf: MAE=0.2513, RMSE=0.2755, R2=0.9903
 #5 random_forest: MAE=0.2119, RMSE=0.2857, R2=0.9896
 #6 knn_regressor: MAE=0.2603, RMSE=0.3164, R2=0.9873
-#7 gru: MAE=0.7043, RMSE=0.9612, R2=0.8824
+#7 gru: MAE=1.5135, RMSE=1.7171, R2=0.6246
